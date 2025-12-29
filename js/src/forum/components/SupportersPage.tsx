@@ -81,6 +81,7 @@ export default class SupportersPage<CustomAttrs extends ISupportersPageAttrs = I
           filter: { q: `group:${monthlyGroupId}` } as any,
           include: 'groups',
           page: { limit: 500 },
+          sort: '-commentCount',
         })
         .then((monthly) => {
           this.monthlySupporers = Array.isArray(monthly) ? monthly : [];
@@ -102,6 +103,7 @@ export default class SupportersPage<CustomAttrs extends ISupportersPageAttrs = I
           filter: { q: `group:${oneTimeGroupId}` } as any,
           include: 'groups',
           page: { limit: 500 },
+          sort: '-commentCount',
         })
         .then((oneTime) => {
           this.supporters = this.shuffleArray(Array.isArray(oneTime) ? oneTime : []);
