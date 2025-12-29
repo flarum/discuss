@@ -11,7 +11,6 @@ namespace Flarum\Discuss;
 
 use Flarum\Api\Resource\ForumResource;
 use Flarum\Discuss\Console\UpdateStatsCommand;
-use Flarum\Discuss\Content\Supporters;
 use Flarum\Extend;
 use Illuminate\Console\Scheduling\Event;
 
@@ -19,8 +18,8 @@ return [
     (new Extend\Frontend('forum'))
         ->js(__DIR__.'/js/dist/forum.js')
         ->css(__DIR__.'/less/forum.less')
-        ->route('/supporters', 'supporters', Supporters::class)
-        ->route('/contribute', 'contribute'),
+        ->route('/supporters', 'supporters', Content\Supporters::class)
+        ->route('/contribute', 'contribute', Content\Contribute::class),
 
     (new Extend\Frontend('admin'))
         ->js(__DIR__.'/js/dist/admin.js')
