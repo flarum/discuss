@@ -81,7 +81,7 @@ export default class SupportersPage<CustomAttrs extends ISupportersPageAttrs = I
           include: 'groups',
         })
         .then((monthly) => {
-          this.monthlySupporers = this.shuffleArray(Array.isArray(monthly) ? monthly : []);
+          this.monthlySupporers = Array.isArray(monthly) ? monthly : [];
           this.loadingMonthly = false;
           m.redraw();
         })
@@ -131,12 +131,13 @@ export default class SupportersPage<CustomAttrs extends ISupportersPageAttrs = I
     const monthlyGroupId = app.forum.attribute<string>('monthlySupportersGroupId');
     const oneTimeGroupId = app.forum.attribute<string>('oneTimeSupportersGroupId');
 
-    this.monthlySupporers = this.shuffleArray(
-      data.filter((user) => {
-        const groups = user.groups();
-        return groups && Array.isArray(groups) && groups.some((group) => group?.id() === monthlyGroupId);
-      })
-    );
+    // Monthly supporters - no shuffling, show all
+    this.monthlySupporers = data.filter((user) => {
+      const groups = user.groups();
+      return groups && Array.isArray(groups) && groups.some((group) => group?.id() === monthlyGroupId);
+    });
+
+    // One-time supporters - shuffle them
     this.supporters = this.shuffleArray(
       data.filter((user) => {
         const groups = user.groups();
@@ -162,9 +163,8 @@ export default class SupportersPage<CustomAttrs extends ISupportersPageAttrs = I
 
     items.add('introduction', this.introSection(), 100);
 
-    // Add impact stats section
-    const totalSupporters = this.monthlySupporers.length + this.supporters.length;
-    items.add('impactStats', <ImpactStats supportersCount={totalSupporters} />, 95);
+    // Add impact stats section - will animate from 0 to actual value
+    items.add('impactStats', <ImpactStats />, 95);
 
     // Always show monthly section if group is configured
     const monthlyGroupId = app.forum.attribute<string>('monthlySupportersGroupId');
@@ -203,63 +203,67 @@ export default class SupportersPage<CustomAttrs extends ISupportersPageAttrs = I
   }
 
   /**
-   * Monthly supporters section
+   * Monthly supporters section - show all supporters in a grid (4 per row)
    */
   monthlySupportersSection(): Mithril.Children {
     return (
       <div className="SupportersPage-section SupportersPage-monthlySection">
-        <div className="SupportersPage-sectionHeader">
-          <h2 className="SupportersPage-sectionTitle">
-            <Icon name="fas fa-star" />
-            {app.translator.trans('flarum-discuss.forum.supporters.monthly_supporters_title')}
-          </h2>
-          <p className="SupportersPage-sectionDescription">
-            {app.translator.trans('flarum-discuss.forum.supporters.monthly_supporters_description')}
-          </p>
-        </div>
-        <div className="SupporterCards SupporterCards--featured">
-          {this.loadingMonthly ? (
-            <LoadingIndicator />
-          ) : this.monthlySupporers.length > 0 ? (
-            this.monthlySupporers.map((user) => <SupporterCard user={user} featured={true} />)
-          ) : (
-            <div className="SupportersPage-emptyState">
-              <Icon name="fas fa-heart" />
-              <p>{app.translator.trans('flarum-discuss.forum.supporters.no_monthly_yet')}</p>
-            </div>
-          )}
+        <div className="container">
+          <div className="SupportersPage-sectionHeader">
+            <h2 className="SupportersPage-sectionTitle">
+              <Icon name="fas fa-star" />
+              {app.translator.trans('flarum-discuss.forum.supporters.monthly_supporters_title')}
+            </h2>
+            <p className="SupportersPage-sectionDescription">
+              {app.translator.trans('flarum-discuss.forum.supporters.monthly_supporters_description')}
+            </p>
+          </div>
+          <div className="SupporterCards SupporterCards--grid">
+            {this.loadingMonthly ? (
+              <LoadingIndicator />
+            ) : this.monthlySupporers.length > 0 ? (
+              this.monthlySupporers.map((user) => <SupporterCard user={user} featured={true} />)
+            ) : (
+              <div className="SupportersPage-emptyState">
+                <Icon name="fas fa-heart" />
+                <p>{app.translator.trans('flarum-discuss.forum.supporters.no_monthly_yet')}</p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     );
   }
 
   /**
-   * One-time and previous supporters section
+   * One-time and previous supporters section - randomized, max 20 (4 per row, 5 rows)
    */
   supportersSection(): Mithril.Children {
-    // Limit to 20 supporters for display
+    // Limit to 20 supporters for display (4 per row × 5 rows)
     const displayedSupporters = this.supporters.slice(0, 20);
 
     return (
       <div className="SupportersPage-section">
-        <div className="SupportersPage-sectionHeader">
-          <h2 className="SupportersPage-sectionTitle">
-            <Icon name="fas fa-heart" />
-            {app.translator.trans('flarum-discuss.forum.supporters.supporters_title')}
-          </h2>
-          <p className="SupportersPage-sectionDescription">{app.translator.trans('flarum-discuss.forum.supporters.supporters_description')}</p>
-        </div>
-        <div className="SupporterCards SupporterCards--grid">
-          {this.loadingOneTime ? (
-            <LoadingIndicator />
-          ) : displayedSupporters.length > 0 ? (
-            displayedSupporters.map((user) => <SupporterCard user={user} />)
-          ) : (
-            <div className="SupportersPage-emptyState">
+        <div className="container">
+          <div className="SupportersPage-sectionHeader">
+            <h2 className="SupportersPage-sectionTitle">
               <Icon name="fas fa-heart" />
-              <p>{app.translator.trans('flarum-discuss.forum.supporters.no_supporters_yet')}</p>
-            </div>
-          )}
+              {app.translator.trans('flarum-discuss.forum.supporters.supporters_title')}
+            </h2>
+            <p className="SupportersPage-sectionDescription">{app.translator.trans('flarum-discuss.forum.supporters.supporters_description')}</p>
+          </div>
+          <div className="SupporterCards SupporterCards--grid">
+            {this.loadingOneTime ? (
+              <LoadingIndicator />
+            ) : displayedSupporters.length > 0 ? (
+              displayedSupporters.map((user) => <SupporterCard user={user} />)
+            ) : (
+              <div className="SupportersPage-emptyState">
+                <Icon name="fas fa-heart" />
+                <p>{app.translator.trans('flarum-discuss.forum.supporters.no_supporters_yet')}</p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     );

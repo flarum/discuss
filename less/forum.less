@@ -343,6 +343,7 @@
   .container {
     max-width: 1200px;
     margin: 0 auto;
+    padding: 0 20px;
   }
 
   &-grid {
@@ -976,11 +977,21 @@
     }
   }
 
-  .SupporterCards--featured .SupporterCard {
-    background: linear-gradient(135deg, color-mix(in srgb, var(--secondary-color) 10%, transparent), color-mix(in srgb, var(--secondary-color) 20%, black 90%));
+  .SupporterCards--featured .SupporterCard,
+  .SupporterCard--featured {
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--secondary-color) 15%, transparent);
+    border: 2px solid transparent;
+    background: linear-gradient(135deg, var(--body-bg), color-mix(in srgb, var(--secondary-color) 5%, var(--body-bg)));
 
     &:hover {
-      background: linear-gradient(135deg, color-mix(in srgb, var(--secondary-color) 15%, transparent), color-mix(in srgb, var(--secondary-color) 30%, black 85%));
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px color-mix(in srgb, var(--secondary-color) 30%, transparent);
+      border-color: var(--secondary-color);
+    }
+
+    .SupporterCard-avatar .Avatar {
+      width: 100px;
+      height: 100px;
     }
   }
 }
