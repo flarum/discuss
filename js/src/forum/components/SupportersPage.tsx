@@ -245,7 +245,6 @@ export default class SupportersPage<CustomAttrs extends ISupportersPageAttrs = I
    * One-time and previous supporters section
    */
   supportersSection(): Mithril.Children {
-
     return (
       <div className="SupportersPage-section">
         <div className="container">
