@@ -3,6 +3,8 @@ import Component from 'flarum/common/Component';
 import type { ComponentAttrs } from 'flarum/common/Component';
 import type Mithril from 'mithril';
 import extractText from 'flarum/common/utils/extractText';
+import ItemList from 'flarum/common/utils/ItemList';
+import abbreviateNumber from 'flarum/common/utils/abbreviateNumber';
 
 export interface ImpactStatsAttrs extends ComponentAttrs {
   supportersCount?: number;
@@ -20,86 +22,94 @@ interface Stat {
  */
 export default class ImpactStats<CustomAttrs extends ImpactStatsAttrs = ImpactStatsAttrs> extends Component<CustomAttrs> {
   view(vnode: Mithril.Vnode<CustomAttrs, this>): Mithril.Children {
-    const stats = this.getStats();
+    const stats = this.statsItems();
 
-    if (stats.length === 0) {
+    if (stats.isEmpty()) {
       return null;
     }
 
     return (
       <div className="ImpactStats">
         <div className="container">
-          <div className="ImpactStats-grid">
-            {stats.map((stat) => (
-              <div className="ImpactStat">
-                <div className="ImpactStat-icon">
-                  <i className={stat.icon} aria-hidden="true"></i>
-                </div>
-                <div className="ImpactStat-content">
-                  <div className="ImpactStat-value">{stat.value}</div>
-                  <div className="ImpactStat-label">{stat.label}</div>
-                </div>
-              </div>
-            ))}
-          </div>
+          <div className="ImpactStats-grid">{stats.toArray()}</div>
         </div>
       </div>
     );
   }
 
-  getStats(): Stat[] {
-    const stats: Stat[] = [];
+  statsItems(): ItemList<Mithril.Children> {
+    const items = new ItemList<Mithril.Children>();
 
     // Supporters count (from props)
     const supportersCount = this.attrs.supportersCount;
     if (supportersCount && supportersCount > 0) {
-      stats.push({
-        icon: 'fas fa-users',
-        value: this.formatNumber(supportersCount),
-        label: extractText(app.translator.trans('flarum-discuss.forum.supporters.stats.supporters')),
-      });
+      items.add(
+        'supporters',
+        this.statItem({
+          icon: 'fas fa-users',
+          value: abbreviateNumber(supportersCount),
+          label: extractText(app.translator.trans('flarum-discuss.forum.supporters.stats.supporters')),
+        }),
+        100
+      );
     }
 
     // GitHub Stars
     const githubStars = app.forum.attribute<number>('githubStars');
     if (githubStars && githubStars > 0) {
-      stats.push({
-        icon: 'fab fa-github',
-        value: this.formatNumber(githubStars),
-        label: extractText(app.translator.trans('flarum-discuss.forum.supporters.stats.github_stars')),
-      });
+      items.add(
+        'github-stars',
+        this.statItem({
+          icon: 'fab fa-github',
+          value: abbreviateNumber(githubStars),
+          label: extractText(app.translator.trans('flarum-discuss.forum.supporters.stats.github_stars')),
+        }),
+        90
+      );
     }
 
     // Framework Commits
     const frameworkCommits = app.forum.attribute<number>('frameworkCommits');
     if (frameworkCommits && frameworkCommits > 0) {
-      stats.push({
-        icon: 'fas fa-code-branch',
-        value: this.formatNumber(frameworkCommits),
-        label: extractText(app.translator.trans('flarum-discuss.forum.supporters.stats.framework_commits')),
-      });
+      items.add(
+        'framework-commits',
+        this.statItem({
+          icon: 'fas fa-code-branch',
+          value: abbreviateNumber(frameworkCommits),
+          label: extractText(app.translator.trans('flarum-discuss.forum.supporters.stats.framework_commits')),
+        }),
+        80
+      );
     }
 
     // Framework Contributors
     const frameworkContributors = app.forum.attribute<number>('frameworkContributors');
     if (frameworkContributors && frameworkContributors > 0) {
-      stats.push({
-        icon: 'fas fa-user-friends',
-        value: this.formatNumber(frameworkContributors),
-        label: extractText(app.translator.trans('flarum-discuss.forum.supporters.stats.framework_contributors')),
-      });
+      items.add(
+        'framework-contributors',
+        this.statItem({
+          icon: 'fas fa-user-friends',
+          value: abbreviateNumber(frameworkContributors),
+          label: extractText(app.translator.trans('flarum-discuss.forum.supporters.stats.framework_contributors')),
+        }),
+        70
+      );
     }
 
-    return stats;
+    return items;
   }
 
-  formatNumber(num: number): string {
-    if (num >= 1000000) {
-      return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
-    }
-    if (num >= 1000) {
-      return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
-    }
-    return num.toString();
+  statItem(stat: Stat): Mithril.Children {
+    return (
+      <div className="ImpactStat">
+        <div className="ImpactStat-icon">
+          <i className={stat.icon} aria-hidden="true"></i>
+        </div>
+        <div className="ImpactStat-content">
+          <div className="ImpactStat-value">{stat.value}</div>
+          <div className="ImpactStat-label">{stat.label}</div>
+        </div>
+      </div>
+    );
   }
 }

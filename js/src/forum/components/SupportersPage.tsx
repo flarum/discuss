@@ -162,9 +162,11 @@ export default class SupportersPage<CustomAttrs extends ISupportersPageAttrs = I
 
     items.add('introduction', this.introSection(), 100);
 
-    // Add impact stats section
-    const totalSupporters = this.monthlySupporers.length + this.supporters.length;
-    items.add('impactStats', <ImpactStats supportersCount={totalSupporters} />, 95);
+    // Add impact stats section - only show when data is loaded
+    if (!this.loadingMonthly && !this.loadingOneTime) {
+      const totalSupporters = this.monthlySupporers.length + this.supporters.length;
+      items.add('impactStats', <ImpactStats supportersCount={totalSupporters} />, 95);
+    }
 
     // Always show monthly section if group is configured
     const monthlyGroupId = app.forum.attribute<string>('monthlySupportersGroupId');
