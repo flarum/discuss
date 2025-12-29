@@ -80,6 +80,7 @@ export default class SupportersPage<CustomAttrs extends ISupportersPageAttrs = I
         .find<User[]>('users', {
           filter: { q: `group:${monthlyGroupId}` } as any,
           include: 'groups',
+          page: { limit: 500 },
         })
         .then((monthly) => {
           this.monthlySupporers = Array.isArray(monthly) ? monthly : [];
@@ -100,6 +101,7 @@ export default class SupportersPage<CustomAttrs extends ISupportersPageAttrs = I
         .find<User[]>('users', {
           filter: { q: `group:${oneTimeGroupId}` } as any,
           include: 'groups',
+          page: { limit: 500 },
         })
         .then((oneTime) => {
           this.supporters = this.shuffleArray(Array.isArray(oneTime) ? oneTime : []);
