@@ -5,7 +5,7 @@ import LinkButton from 'flarum/common/components/LinkButton';
 import SupportersPage from './components/SupportersPage';
 import ContributePage from './components/ContributePage';
 
-export default function addSupportersLink() {
+export default function addLinks() {
   // Add links to the supporters and contribute pages in the sidebar
   extend(IndexSidebar.prototype, 'navItems', function (items) {
     items.add(

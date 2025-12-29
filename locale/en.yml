@@ -6,10 +6,6 @@ flarum-discuss:
         opencollective_label: Open Collective URL
       monthly_group_label: Monthly Supporters Group
       one_time_group_label: One-Time Supporters Group
-      stats:
-        github_stars_label: GitHub Stars Count
-        framework_commits_label: Framework Commits
-        framework_contributors_label: Framework Contributors
 
   forum:
     supporters:

@@ -2,6 +2,7 @@ import app from 'flarum/forum/app';
 import Component from 'flarum/common/Component';
 import type { ComponentAttrs } from 'flarum/common/Component';
 import type Mithril from 'mithril';
+import extractText from 'flarum/common/utils/extractText';
 
 export interface ImpactStatsAttrs extends ComponentAttrs {
   supportersCount?: number;
@@ -55,7 +56,7 @@ export default class ImpactStats<CustomAttrs extends ImpactStatsAttrs = ImpactSt
       stats.push({
         icon: 'fas fa-users',
         value: this.formatNumber(supportersCount),
-        label: app.translator.trans('flarum-discuss.forum.supporters.stats.supporters'),
+        label: extractText(app.translator.trans('flarum-discuss.forum.supporters.stats.supporters')),
       });
     }
 
@@ -65,7 +66,7 @@ export default class ImpactStats<CustomAttrs extends ImpactStatsAttrs = ImpactSt
       stats.push({
         icon: 'fab fa-github',
         value: this.formatNumber(githubStars),
-        label: app.translator.trans('flarum-discuss.forum.supporters.stats.github_stars'),
+        label: extractText(app.translator.trans('flarum-discuss.forum.supporters.stats.github_stars')),
       });
     }
 
@@ -75,7 +76,7 @@ export default class ImpactStats<CustomAttrs extends ImpactStatsAttrs = ImpactSt
       stats.push({
         icon: 'fas fa-code-branch',
         value: this.formatNumber(frameworkCommits),
-        label: app.translator.trans('flarum-discuss.forum.supporters.stats.framework_commits'),
+        label: extractText(app.translator.trans('flarum-discuss.forum.supporters.stats.framework_commits')),
       });
     }
 
@@ -85,7 +86,7 @@ export default class ImpactStats<CustomAttrs extends ImpactStatsAttrs = ImpactSt
       stats.push({
         icon: 'fas fa-user-friends',
         value: this.formatNumber(frameworkContributors),
-        label: app.translator.trans('flarum-discuss.forum.supporters.stats.framework_contributors'),
+        label: extractText(app.translator.trans('flarum-discuss.forum.supporters.stats.framework_contributors')),
       });
     }
 

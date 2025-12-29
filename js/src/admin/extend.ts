@@ -17,21 +17,6 @@ export default [
       label: app.translator.trans('flarum-discuss.admin.settings.donation_link.opencollective_label'),
       type: 'text',
     }))
-    .setting(() => ({
-      setting: 'flarum-discuss.supporters.github-stars',
-      label: app.translator.trans('flarum-discuss.admin.settings.stats.github_stars_label'),
-      type: 'number',
-    }))
-    .setting(() => ({
-      setting: 'flarum-discuss.supporters.framework-commits',
-      label: app.translator.trans('flarum-discuss.admin.settings.stats.framework_commits_label'),
-      type: 'number',
-    }))
-    .setting(() => ({
-      setting: 'flarum-discuss.supporters.framework-contributors',
-      label: app.translator.trans('flarum-discuss.admin.settings.stats.framework_contributors_label'),
-      type: 'number',
-    }))
     .setting(() => {
       const groups = app.store.all<Group>('groups');
       const options: Record<string, string> = {};
