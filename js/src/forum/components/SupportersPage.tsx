@@ -106,7 +106,7 @@ export default class SupportersPage<CustomAttrs extends ISupportersPageAttrs = I
           sort: '-commentCount',
         })
         .then((oneTime) => {
-          this.supporters = this.shuffleArray(Array.isArray(oneTime) ? oneTime : []);
+          this.supporters = Array.isArray(oneTime) ? oneTime : [];
           this.loadingOneTime = false;
           m.redraw();
         })
@@ -118,37 +118,23 @@ export default class SupportersPage<CustomAttrs extends ISupportersPageAttrs = I
     }
   }
 
-  /**
-   * Shuffle array using Fisher-Yates algorithm
-   */
-  shuffleArray<T>(array: T[]): T[] {
-    const shuffled = [...array];
-    for (let i = shuffled.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-    }
-    return shuffled;
-  }
-
   processSupporters(data: User[]) {
     // Process preloaded data if needed
     // Split into monthly and one-time supporters based on group membership
     const monthlyGroupId = app.forum.attribute<string>('monthlySupportersGroupId');
     const oneTimeGroupId = app.forum.attribute<string>('oneTimeSupportersGroupId');
 
-    // Monthly supporters - no shuffling, show all
+    // Monthly supporters
     this.monthlySupporers = data.filter((user) => {
       const groups = user.groups();
       return groups && Array.isArray(groups) && groups.some((group) => group?.id() === monthlyGroupId);
     });
 
-    // One-time supporters - shuffle them
-    this.supporters = this.shuffleArray(
-      data.filter((user) => {
-        const groups = user.groups();
-        return groups && Array.isArray(groups) && groups.some((group) => group?.id() === oneTimeGroupId);
-      })
-    );
+    // One-time supporters
+    this.supporters = data.filter((user) => {
+      const groups = user.groups();
+      return groups && Array.isArray(groups) && groups.some((group) => group?.id() === oneTimeGroupId);
+    });
   }
 
   pageClass(): string {
