@@ -242,11 +242,9 @@ export default class SupportersPage<CustomAttrs extends ISupportersPageAttrs = I
   }
 
   /**
-   * One-time and previous supporters section - randomized, max 20 (4 per row, 5 rows)
+   * One-time and previous supporters section
    */
   supportersSection(): Mithril.Children {
-    // Limit to 20 supporters for display (4 per row × 5 rows)
-    const displayedSupporters = this.supporters.slice(0, 20);
 
     return (
       <div className="SupportersPage-section">
@@ -261,8 +259,8 @@ export default class SupportersPage<CustomAttrs extends ISupportersPageAttrs = I
           <div className="SupporterCards SupporterCards--grid">
             {this.loadingOneTime ? (
               <LoadingIndicator />
-            ) : displayedSupporters.length > 0 ? (
-              displayedSupporters.map((user) => <SupporterCard user={user} />)
+            ) : this.supporters.length > 0 ? (
+              this.supporters.map((user) => <SupporterCard user={user} />)
             ) : (
               <div className="SupportersPage-emptyState">
                 <Icon name="fas fa-heart" />
