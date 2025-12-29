@@ -19,10 +19,6 @@ export default class SupportersPage<CustomAttrs extends ISupportersPageAttrs = I
      * Load supporters from the API using group membership
      */
     loadSupporters(): void;
-    /**
-     * Shuffle array using Fisher-Yates algorithm
-     */
-    shuffleArray<T>(array: T[]): T[];
     processSupporters(data: User[]): void;
     pageClass(): string;
     heroTitle(): Mithril.Children;
