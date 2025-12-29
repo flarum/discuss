@@ -1,12 +1,10 @@
 <?php
 
 /*
- * This file is part of flarum/discuss.
+ * This file is part of Flarum.
  *
- * Copyright (c) 2025 IanM.
- *
- * For the full copyright and license information, please view the LICENSE.md
- * file that was distributed with this source code.
+ * For detailed copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 namespace Flarum\Discuss\Console;
@@ -71,24 +69,26 @@ class UpdateStatsCommand extends AbstractCommand
             $this->settings->set('flarum-discuss.supporters.framework-contributors', $stats['contributors']);
 
             $this->info('');
-            $this->info('✓ GitHub Stars: ' . number_format($stats['stars']));
-            $this->info('✓ Framework Commits: ' . number_format($stats['commits']));
-            $this->info('✓ Framework Contributors: ' . number_format($stats['contributors']));
+            $this->info('✓ GitHub Stars: '.number_format($stats['stars']));
+            $this->info('✓ Framework Commits: '.number_format($stats['commits']));
+            $this->info('✓ Framework Contributors: '.number_format($stats['contributors']));
             $this->info('');
             $this->info('Statistics updated successfully!');
 
             return 0;
         } catch (GuzzleException $e) {
-            $this->error('Failed to fetch GitHub statistics: ' . $e->getMessage());
+            $this->error('Failed to fetch GitHub statistics: '.$e->getMessage());
+
             return 1;
         } catch (\Exception $e) {
-            $this->error('An error occurred: ' . $e->getMessage());
+            $this->error('An error occurred: '.$e->getMessage());
+
             return 1;
         }
     }
 
     /**
-     * Fetch statistics from GitHub API
+     * Fetch statistics from GitHub API.
      */
     protected function fetchGitHubStats(?string $token): array
     {
@@ -99,7 +99,7 @@ class UpdateStatsCommand extends AbstractCommand
         ];
 
         if ($token) {
-            $headers['Authorization'] = 'Bearer ' . $token;
+            $headers['Authorization'] = 'Bearer '.$token;
         }
 
         $this->info('Fetching repository data from GitHub...');
@@ -159,7 +159,7 @@ class UpdateStatsCommand extends AbstractCommand
     }
 
     /**
-     * Extract total count from GitHub API Link header
+     * Extract total count from GitHub API Link header.
      *
      * GitHub uses Link headers for pagination like:
      * <https://api.github.com/resource?page=2>; rel="next", <https://api.github.com/resource?page=5>; rel="last"

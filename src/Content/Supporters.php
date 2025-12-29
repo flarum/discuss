@@ -1,12 +1,10 @@
 <?php
 
 /*
- * This file is part of flarum/discuss.
+ * This file is part of Flarum.
  *
- * Copyright (c) 2025 IanM.
- *
- * For the full copyright and license information, please view the LICENSE.md
- * file that was distributed with this source code.
+ * For detailed copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 namespace Flarum\Discuss\Content;
@@ -48,7 +46,7 @@ class Supporters
     }
 
     /**
-     * Optional: Get data from API endpoint
+     * Optional: Get data from API endpoint.
      *
      * protected function getApiDocument(Request $request): object
      * {
