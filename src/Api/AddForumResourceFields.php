@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of Flarum.
+ *
+ * For detailed copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
+ */
+
 namespace Flarum\Discuss\Api;
 
 use Flarum\Api\Context;
@@ -11,13 +18,13 @@ use Illuminate\Contracts\Cache\Store;
 class AddForumResourceFields
 {
     const SUPPORTERS_CACHE_KEY = 'flarum-discuss.total-supporters';
-    
+
     public function __construct(
         protected Store $cache,
         protected SettingsRepositoryInterface $settings
     ) {
     }
-    
+
     public function __invoke(): array
     {
         return [
@@ -36,7 +43,7 @@ class AddForumResourceFields
                     $groupIds = array_filter([$monthlyGroupId, $oneTimeGroupId]);
 
                     $count = 0;
-                    if (!empty($groupIds)) {
+                    if (! empty($groupIds)) {
                         $count = Group::whereIn('id', $groupIds)
                             ->get()
                             ->sum(fn (Group $group) => $group->users()->count());

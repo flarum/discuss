@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of Flarum.
+ *
+ * For detailed copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
+ */
+
 namespace Flarum\Discuss\Listeners;
 
 use Flarum\Discuss\Api\AddForumResourceFields;
@@ -16,12 +23,12 @@ class ClearSupportersCache
         protected Store $cache
     ) {
     }
-    
+
     public function subscribe(Dispatcher $events): void
     {
         $events->listen([BackerAdded::class, BackerRemoved::class, SponsorAdded::class, SponsorRemoved::class], [$this, 'clearCache']);
     }
-    
+
     public function clearCache(BackerAdded|BackerRemoved|SponsorAdded|SponsorRemoved $event): void
     {
         $this->cache->forget(AddForumResourceFields::SUPPORTERS_CACHE_KEY);
