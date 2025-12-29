@@ -163,7 +163,7 @@ export default class SupportersPage<CustomAttrs extends ISupportersPageAttrs = I
 
     items.add('introduction', this.introSection(), 100);
 
-    // Add impact stats section - will animate from 0 to actual value
+    // Add impact stats section
     items.add('impactStats', <ImpactStats />, 95);
 
     // Always show monthly section if group is configured
