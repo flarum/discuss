@@ -15,6 +15,10 @@ export default class ContributePage<CustomAttrs extends IContributePageAttrs = I
      */
     contributionTypesSection(): Mithril.Children;
     /**
+     * Funding use section showing how funds are spent
+     */
+    fundingUseSection(): Mithril.Children;
+    /**
      * Donation links section
      */
     donationSection(): Mithril.Children;
