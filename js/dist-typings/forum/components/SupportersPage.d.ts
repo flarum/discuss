@@ -37,7 +37,7 @@ export default class SupportersPage<CustomAttrs extends ISupportersPageAttrs = I
      */
     monthlySupportersSection(): Mithril.Children;
     /**
-     * One-time and previous supporters section - randomized, max 20 (4 per row, 5 rows)
+     * One-time and previous supporters section
      */
     supportersSection(): Mithril.Children;
     /**
