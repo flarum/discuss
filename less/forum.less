@@ -270,6 +270,14 @@
 
 // Back to SupportersPage styles
 .SupportersPage {
+  // Custom container for supporters page
+  &-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    box-sizing: border-box;
+  }
+
   // -----------------------------------------------------
   // Section Structure
   // -----------------------------------------------------
@@ -285,18 +293,16 @@
   &-monthlySection {
     background: linear-gradient(to bottom, var(--body-bg), color-mix(in srgb, var(--body-bg) 97%, var(--secondary-color)));
 
-    // Monthly supporters: 1 per row on mobile, wider and centered
+    // Monthly supporters: 1 per row on mobile
     .SupporterCards--grid {
       @media (max-width: 768px) {
         grid-template-columns: 1fr;
-        max-width: 320px;
         margin: 0 auto;
         gap: 20px;
       }
 
       @media (max-width: 480px) {
         grid-template-columns: 1fr;
-        max-width: 280px;
         gap: 20px;
       }
     }
@@ -479,13 +485,14 @@
   // Grid layout for community supporters (4 columns)
   &--grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
     overflow: visible;
     gap: 24px;
     padding: 0;
+    max-width: 100%;
 
     @media (max-width: 1200px) {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     }
 
     @media (max-width: 768px) {
@@ -502,8 +509,23 @@
 
     .SupporterCard {
       width: 100%;
-      max-width: none;
+      max-width: 200px;
       flex: none;
+    }
+
+    // Monthly supporters - full width cards on mobile
+    @media (max-width: 768px) {
+      .SupportersPage-monthlySection & .SupporterCard {
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .SupportersPage-monthlySection & .SupporterCard {
+        width: 100% !important;
+        max-width: 100% !important;
+      }
     }
   }
 

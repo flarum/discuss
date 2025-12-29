@@ -204,7 +204,7 @@ export default class SupportersPage<CustomAttrs extends ISupportersPageAttrs = I
   monthlySupportersSection(): Mithril.Children {
     return (
       <div className="SupportersPage-section SupportersPage-monthlySection">
-        <div className="container">
+        <div className="SupportersPage-container">
           <div className="SupportersPage-sectionHeader">
             <h2 className="SupportersPage-sectionTitle">
               <Icon name="fas fa-star" />
@@ -237,7 +237,7 @@ export default class SupportersPage<CustomAttrs extends ISupportersPageAttrs = I
   supportersSection(): Mithril.Children {
     return (
       <div className="SupportersPage-section">
-        <div className="container">
+        <div className="SupportersPage-container">
           <div className="SupportersPage-sectionHeader">
             <h2 className="SupportersPage-sectionTitle">
               <Icon name="fas fa-heart" />
@@ -268,40 +268,44 @@ export default class SupportersPage<CustomAttrs extends ISupportersPageAttrs = I
   howToAppearSection(): Mithril.Children {
     return (
       <div className="SupportersPage-section SupportersPage-howToAppear">
-        <div className="SupportersPage-sectionHeader">
-          <h2 className="SupportersPage-sectionTitle">
-            <Icon name="fas fa-question-circle" />
-            {app.translator.trans('flarum-discuss.forum.supporters.how_to_appear_title')}
-          </h2>
-          <p className="SupportersPage-sectionDescription">{app.translator.trans('flarum-discuss.forum.supporters.how_to_appear_description')}</p>
-        </div>
+        <div className="SupportersPage-container">
+          <div className="SupportersPage-sectionHeader">
+            <h2 className="SupportersPage-sectionTitle">
+              <Icon name="fas fa-question-circle" />
+              {app.translator.trans('flarum-discuss.forum.supporters.how_to_appear_title')}
+            </h2>
+            <p className="SupportersPage-sectionDescription">{app.translator.trans('flarum-discuss.forum.supporters.how_to_appear_description')}</p>
+          </div>
 
-        <div className="HowToAppear">
-          <div className="HowToAppear-requirements">
-            <div className="HowToAppear-requirement">
-              <div className="HowToAppear-requirementIcon">
-                <Icon name="fas fa-user-circle" />
+          <div className="HowToAppear">
+            <div className="HowToAppear-requirements">
+              <div className="HowToAppear-requirement">
+                <div className="HowToAppear-requirementIcon">
+                  <Icon name="fas fa-user-circle" />
+                </div>
+                <h3 className="HowToAppear-requirementTitle">{app.translator.trans('flarum-discuss.forum.supporters.requirement_account_title')}</h3>
+                <p className="HowToAppear-requirementText">{app.translator.trans('flarum-discuss.forum.supporters.requirement_account_text')}</p>
               </div>
-              <h3 className="HowToAppear-requirementTitle">{app.translator.trans('flarum-discuss.forum.supporters.requirement_account_title')}</h3>
-              <p className="HowToAppear-requirementText">{app.translator.trans('flarum-discuss.forum.supporters.requirement_account_text')}</p>
-            </div>
 
-            <div className="HowToAppear-requirement">
-              <div className="HowToAppear-requirementIcon">
-                <Icon name="fab fa-github" />
+              <div className="HowToAppear-requirement">
+                <div className="HowToAppear-requirementIcon">
+                  <Icon name="fab fa-github" />
+                </div>
+                <h3 className="HowToAppear-requirementTitle">{app.translator.trans('flarum-discuss.forum.supporters.requirement_github_title')}</h3>
+                <p className="HowToAppear-requirementText">{app.translator.trans('flarum-discuss.forum.supporters.requirement_github_text')}</p>
               </div>
-              <h3 className="HowToAppear-requirementTitle">{app.translator.trans('flarum-discuss.forum.supporters.requirement_github_title')}</h3>
-              <p className="HowToAppear-requirementText">{app.translator.trans('flarum-discuss.forum.supporters.requirement_github_text')}</p>
-            </div>
 
-            <div className="HowToAppear-requirement">
-              <div className="HowToAppear-requirementIcon">
-                <Icon name="fas fa-hand-holding-heart" />
+              <div className="HowToAppear-requirement">
+                <div className="HowToAppear-requirementIcon">
+                  <Icon name="fas fa-hand-holding-heart" />
+                </div>
+                <h3 className="HowToAppear-requirementTitle">
+                  {app.translator.trans('flarum-discuss.forum.supporters.requirement_opencollective_title')}
+                </h3>
+                <p className="HowToAppear-requirementText">
+                  {app.translator.trans('flarum-discuss.forum.supporters.requirement_opencollective_text')}
+                </p>
               </div>
-              <h3 className="HowToAppear-requirementTitle">
-                {app.translator.trans('flarum-discuss.forum.supporters.requirement_opencollective_title')}
-              </h3>
-              <p className="HowToAppear-requirementText">{app.translator.trans('flarum-discuss.forum.supporters.requirement_opencollective_text')}</p>
             </div>
           </div>
         </div>
