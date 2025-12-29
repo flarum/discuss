@@ -1,0 +1,58 @@
+<svg width="1920" height="600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Gradient from Flarum orange to purple -->
+    <linearGradient id="mainGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#E7672E;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#7B4BFF;stop-opacity:1" />
+    </linearGradient>
+
+    <!-- Pattern for geometric overlay -->
+    <pattern id="dots" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
+      <circle cx="10" cy="10" r="2" fill="rgba(255,255,255,0.1)"/>
+      <circle cx="45" cy="30" r="3" fill="rgba(255,255,255,0.08)"/>
+      <circle cx="75" cy="65" r="2.5" fill="rgba(255,255,255,0.12)"/>
+      <circle cx="30" cy="80" r="2" fill="rgba(255,255,255,0.09)"/>
+      <circle cx="85" cy="20" r="2" fill="rgba(255,255,255,0.1)"/>
+    </pattern>
+
+    <!-- Grid pattern -->
+    <pattern id="grid" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
+      <path d="M 100 0 L 0 0 0 100" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <!-- Main gradient background -->
+  <rect width="1920" height="600" fill="url(#mainGradient)"/>
+
+  <!-- Large decorative circles -->
+  <circle cx="200" cy="100" r="250" fill="rgba(255,255,255,0.03)"/>
+  <circle cx="1600" cy="400" r="300" fill="rgba(255,255,255,0.04)"/>
+  <circle cx="800" cy="500" r="200" fill="rgba(255,255,255,0.025)"/>
+  <circle cx="1400" cy="50" r="180" fill="rgba(255,255,255,0.035)"/>
+  <circle cx="400" cy="450" r="220" fill="rgba(255,255,255,0.03)"/>
+
+  <!-- Grid overlay -->
+  <rect width="1920" height="600" fill="url(#grid)"/>
+
+  <!-- Dot pattern overlay -->
+  <rect width="1920" height="600" fill="url(#dots)"/>
+
+  <!-- Subtle dark overlay for text readability -->
+  <rect width="1920" height="600" fill="rgba(0,0,0,0.2)"/>
+
+  <!-- Additional accent elements -->
+  <g opacity="0.06">
+    <!-- Geometric shapes scattered -->
+    <rect x="1700" y="450" width="60" height="60" fill="white" transform="rotate(15 1730 480)"/>
+    <circle cx="150" cy="500" r="30" fill="white"/>
+    <polygon points="1100,50 1150,100 1100,150 1050,100" fill="white"/>
+    <rect x="600" y="80" width="40" height="40" fill="white" transform="rotate(-20 620 100)"/>
+  </g>
+
+  <!-- Subtle light rays effect -->
+  <g opacity="0.04">
+    <line x1="0" y1="0" x2="400" y2="600" stroke="white" stroke-width="100"/>
+    <line x1="800" y1="0" x2="1200" y2="600" stroke="white" stroke-width="80"/>
+    <line x1="1400" y1="0" x2="1800" y2="600" stroke="white" stroke-width="100"/>
+  </g>
+</svg>

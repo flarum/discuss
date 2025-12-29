@@ -1,0 +1,986 @@
+// =====================================================
+// Base Info Page Styles (Shared across all info pages)
+// =====================================================
+
+// -----------------------------------------------------
+// Hero Section - Shared
+// -----------------------------------------------------
+.InfoPage-hero {
+  position: relative;
+  background: url('/assets/extensions/flarum-discuss/supporters-hero.svg');
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+  padding: 50px 0;
+  margin-bottom: 0;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.2);
+    z-index: 1;
+  }
+
+  .container {
+    position: relative;
+    z-index: 2;
+  }
+
+  @media (max-width: 768px) {
+    padding: 40px 0;
+  }
+}
+
+.InfoPage-heroContent {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.InfoPage-heroTitle {
+  font-size: 64px !important;
+  font-weight: 800 !important;
+  margin: 0 0 20px !important;
+  color: #fff !important;
+  text-shadow: 0 3px 8px rgba(0, 0, 0, 0.3) !important;
+  line-height: 1.1 !important;
+  letter-spacing: -0.5px !important;
+
+  @media (max-width: 768px) {
+    font-size: 42px !important;
+  }
+}
+
+.InfoPage-heroSubtitle {
+  font-size: 20px;
+  font-weight: 300;
+  margin: 0 0 30px;
+  color: #fff;
+  opacity: 0.95;
+  line-height: 1.6;
+
+  @media (max-width: 768px) {
+    font-size: 18px;
+    margin-bottom: 24px;
+  }
+}
+
+.InfoPage-heroCta {
+  font-size: 18px;
+  padding: 12px 32px;
+  background: #fff;
+  color: var(--secondary-color);
+  border: 2px solid #fff;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    background: rgba(255, 255, 255, 0.95);
+    color: var(--secondary-color);
+  }
+
+  .icon {
+    margin-right: 8px;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 16px;
+    padding: 10px 24px;
+  }
+}
+
+// -----------------------------------------------------
+// Shared Page Structure
+// -----------------------------------------------------
+.InfoPage {
+  background: var(--body-bg);
+
+  .Page-main {
+    padding: 0;
+  }
+}
+
+// -----------------------------------------------------
+// Section Headers (Reusable)
+// -----------------------------------------------------
+.InfoPage-sectionHeader {
+  max-width: 800px;
+  margin: 0 auto 60px;
+  text-align: center;
+
+  @media (max-width: 768px) {
+    margin-bottom: 40px;
+  }
+}
+
+.InfoPage-sectionTitle {
+  font-size: 42px;
+  font-weight: 700;
+  margin: 0 0 20px;
+  color: var(--heading-color);
+  line-height: 1.2;
+
+  @media (max-width: 768px) {
+    font-size: 32px;
+  }
+}
+
+.InfoPage-sectionLead {
+  font-size: 20px;
+  line-height: 1.6;
+  color: var(--muted-color);
+  margin: 0;
+
+  @media (max-width: 768px) {
+    font-size: 18px;
+  }
+}
+
+// =====================================================
+// Supporters Page Styles
+// =====================================================
+
+// -----------------------------------------------------
+// Page Structure
+// -----------------------------------------------------
+.SupportersPage {
+  .Page-main {
+    padding: 0;
+  }
+
+  // -----------------------------------------------------
+  // Introduction Section
+  // -----------------------------------------------------
+  &-intro {
+    background: var(--body-bg);
+    padding: 80px 0;
+    border-bottom: 1px solid var(--control-bg);
+  }
+
+  &-introContent {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+  }
+
+  &-introImage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+      width: 100%;
+      max-width: 400px;
+      height: auto;
+      border-radius: 12px;
+    }
+
+    @media (max-width: 768px) {
+      order: 1;
+
+      img {
+        max-width: 300px;
+      }
+    }
+  }
+
+  &-introText {
+    p {
+      font-size: 18px;
+      line-height: 1.8;
+      color: var(--muted-color);
+      margin: 0;
+
+      @media (max-width: 768px) {
+        font-size: 16px;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 768px) {
+      order: 2;
+    }
+  }
+}
+
+.ContributionType {
+  text-align: center;
+  padding: 30px 20px;
+  border-radius: 12px;
+  background: var(--control-bg);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+
+  &-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #E7672E 0%, #7B4BFF 100%);
+    color: white;
+    font-size: 28px;
+  }
+
+  &-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 12px;
+    color: var(--heading-color);
+  }
+
+  &-description {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--muted-color);
+    margin: 0;
+  }
+}
+
+// Back to SupportersPage styles
+.SupportersPage {
+  // -----------------------------------------------------
+  // Section Structure
+  // -----------------------------------------------------
+  &-section {
+    padding: 60px 0;
+    background: var(--body-bg);
+
+    &:nth-child(even) {
+      background: #fff;
+    }
+  }
+
+  &-monthlySection {
+    background: linear-gradient(to bottom, var(--body-bg), color-mix(in srgb, var(--body-bg) 97%, var(--secondary-color)));
+  }
+
+  &-sectionHeader {
+    text-align: center;
+    margin-bottom: 50px;
+  }
+
+  &-sectionTitle {
+    font-size: 32px;
+    font-weight: 600;
+    margin: 0 0 15px;
+    color: var(--heading-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+
+    i {
+      font-size: 28px;
+      color: var(--primary-color);
+    }
+
+    @media (max-width: 768px) {
+      font-size: 26px;
+    }
+  }
+
+  &-sectionDescription {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--muted-color);
+    margin: 0;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  &-emptyState {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--muted-color);
+
+    i {
+      font-size: 48px;
+      opacity: 0.3;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    p {
+      font-size: 16px;
+      line-height: 1.6;
+      margin: 0;
+      color: var(--muted-color);
+    }
+  }
+}
+
+// -----------------------------------------------------
+// Impact Stats Section
+// -----------------------------------------------------
+.ImpactStats {
+  background: var(--body-bg);
+  padding: 50px 0;
+  border-top: 1px solid var(--control-bg);
+  border-bottom: 1px solid var(--control-bg);
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  &-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 40px;
+
+    @media (max-width: 768px) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    @media (max-width: 480px) {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+  }
+}
+
+.ImpactStat {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  text-align: left;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+  }
+
+  &-icon {
+    flex-shrink: 0;
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--secondary-color), color-mix(in srgb, var(--secondary-color) 80%, black));
+    border-radius: 12px;
+    color: #fff;
+    font-size: 24px;
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--secondary-color) 20%, transparent);
+
+    @media (max-width: 768px) {
+      width: 48px;
+      height: 48px;
+      font-size: 20px;
+    }
+  }
+
+  &-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &-value {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--heading-color);
+    line-height: 1.2;
+    margin-bottom: 4px;
+
+    @media (max-width: 768px) {
+      font-size: 28px;
+    }
+  }
+
+  &-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--muted-color);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+
+    @media (max-width: 768px) {
+      font-size: 13px;
+    }
+  }
+}
+
+// -----------------------------------------------------
+// Supporter Cards Grid
+// -----------------------------------------------------
+.SupporterCards {
+  display: flex;
+  overflow-x: auto;
+  overflow-y: visible;
+  gap: 24px;
+  margin-top: 40px;
+  padding: 8px 0 16px 0;
+  scroll-behavior: smooth;
+  justify-content: flex-start;
+
+  // Center cards when there aren't many
+  &:not(:has(.SupporterCard:nth-child(6))) {
+    justify-content: center;
+  }
+
+  // Base card styles for flexbox layout
+  .SupporterCard {
+    flex: 0 0 auto;
+    width: 200px;
+  }
+
+  // Grid layout for community supporters (4 columns)
+  &--grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    overflow: visible;
+    gap: 24px;
+    padding: 0;
+
+    @media (max-width: 1200px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    @media (max-width: 768px) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    @media (max-width: 480px) {
+      grid-template-columns: 1fr;
+    }
+
+    .SupporterCard {
+      width: 100%;
+      max-width: none;
+      flex: none;
+    }
+  }
+
+  // Custom scrollbar styling
+  &::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: color-mix(in srgb, var(--control-bg) 50%, transparent);
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: color-mix(in srgb, var(--secondary-color) 40%, transparent);
+    border-radius: 4px;
+
+    &:hover {
+      background: color-mix(in srgb, var(--secondary-color) 60%, transparent);
+    }
+  }
+
+  @media (max-width: 768px) {
+    gap: 16px;
+
+    .SupporterCard {
+      width: 150px;
+    }
+
+    // Center when fewer cards on mobile
+    &:not(:has(.SupporterCard:nth-child(4))) {
+      justify-content: center;
+    }
+  }
+
+  // Featured cards (for monthly supporters)
+  &--featured {
+    gap: 30px;
+
+    // Center featured cards when there aren't many
+    &:not(:has(.SupporterCard:nth-child(5))) {
+      justify-content: center;
+    }
+
+    .SupporterCard {
+      width: 240px;
+      box-shadow: 0 4px 12px color-mix(in srgb, var(--secondary-color) 15%, transparent);
+      border: 2px solid transparent;
+      background: linear-gradient(135deg, var(--body-bg), color-mix(in srgb, var(--secondary-color) 5%, var(--body-bg)));
+
+      &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px color-mix(in srgb, var(--secondary-color) 30%, transparent);
+        border-color: var(--secondary-color);
+      }
+    }
+
+    @media (max-width: 768px) {
+      gap: 16px;
+
+      .SupporterCard {
+        width: 180px;
+      }
+
+      // Center featured when fewer cards on mobile
+      &:not(:has(.SupporterCard:nth-child(3))) {
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      // Center on small screens
+      justify-content: center;
+
+      .SupporterCard {
+        width: 200px;
+      }
+    }
+  }
+}
+
+// -----------------------------------------------------
+// Supporter Card
+// -----------------------------------------------------
+.SupporterCard {
+  background: #fff;
+  border: 1px solid var(--control-bg);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    border-color: var(--link-color);
+  }
+
+  &-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 16px;
+    text-decoration: none;
+    color: inherit;
+    height: 100%;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  &-avatar {
+    margin-bottom: 16px;
+
+    .Avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 3px solid #fff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .SupporterCards--featured & .Avatar {
+      width: 100px;
+      height: 100px;
+    }
+  }
+
+  &-info {
+    text-align: center;
+    width: 100%;
+  }
+
+  &-username {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--heading-color);
+    margin: 0;
+    word-break: break-word;
+    line-height: 1.4;
+  }
+
+  &-bio {
+    margin-top: 12px;
+    font-size: 14px;
+    color: var(--muted-color);
+    line-height: 1.6;
+    text-align: center;
+    max-width: 100%;
+    overflow: hidden;
+    word-wrap: break-word;
+
+    p {
+      margin: 0 0 8px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    // Limit to 3 lines for featured cards
+    .SupporterCards--featured & {
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  &-badges {
+    margin-top: 8px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+}
+
+// -----------------------------------------------------
+// Donation Links Section
+// -----------------------------------------------------
+.DonationLinks {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--secondary-color) 80%, white), var(--secondary-color));
+  padding: 80px 0;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M 100 0 L 0 0 0 100" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>');
+    opacity: 0.3;
+  }
+
+  &-container {
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  &-heading {
+    font-size: 36px;
+    font-weight: 700;
+    text-align: center;
+    margin: 0 0 16px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+
+    @media (max-width: 768px) {
+      font-size: 28px;
+    }
+  }
+
+  &-description {
+    font-size: 18px;
+    text-align: center;
+    margin: 0 0 50px;
+    opacity: 0.95;
+    line-height: 1.6;
+
+    @media (max-width: 768px) {
+      font-size: 16px;
+    }
+  }
+
+  &-buttons {
+    display: grid;
+    gap: 24px;
+    max-width: 700px;
+    margin: 0 auto;
+
+    @media (max-width: 768px) {
+      gap: 16px;
+    }
+  }
+}
+
+// -----------------------------------------------------
+// How to Appear Section
+// -----------------------------------------------------
+.HowToAppear {
+  max-width: 1000px;
+  margin: 0 auto;
+
+  &-requirements {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    margin-top: 40px;
+
+    @media (max-width: 992px) {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+  }
+
+  &-requirement {
+    background: var(--body-bg);
+    border-radius: 16px;
+    padding: 32px;
+    text-align: center;
+    border: 2px solid var(--control-bg);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+      border-color: var(--primary-color);
+    }
+  }
+
+  &-requirementIcon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 24px;
+    background: var(--primary-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .icon {
+      font-size: 36px;
+      color: #fff;
+    }
+  }
+
+  &-requirementTitle {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--heading-color);
+    margin: 0 0 16px;
+    line-height: 1.4;
+  }
+
+  &-requirementText {
+    font-size: 15px;
+    color: var(--muted-color);
+    line-height: 1.6;
+    margin: 0;
+  }
+}
+
+.SupportersPage-howToAppear {
+  background: color-mix(in srgb, var(--body-bg) 97%, var(--primary-color));
+}
+
+// -----------------------------------------------------
+// Donation Link Cards
+// -----------------------------------------------------
+.DonationLink {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 28px 32px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 16px;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border: 2px solid transparent;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+    border-color: rgba(255, 255, 255, 0.3);
+    background: #fff;
+    text-decoration: none;
+  }
+
+  @media (max-width: 768px) {
+    padding: 20px;
+    gap: 16px;
+  }
+
+  &-icon {
+    flex-shrink: 0;
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, color-mix(in srgb, var(--secondary-color) 90%, white), color-mix(in srgb, var(--secondary-color) 100%, black 20%));
+    border-radius: 12px;
+    color: #fff;
+    font-size: 32px;
+
+    @media (max-width: 768px) {
+      width: 50px;
+      height: 50px;
+      font-size: 24px;
+    }
+  }
+
+  &-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0 0 6px;
+    color: #1a202c;
+
+    @media (max-width: 768px) {
+      font-size: 18px;
+    }
+  }
+
+  &-subtitle {
+    font-size: 15px;
+    margin: 0;
+    color: #4a5568;
+    line-height: 1.5;
+
+    @media (max-width: 768px) {
+      font-size: 14px;
+    }
+  }
+
+  &-arrow {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    color: #fff;
+    font-size: 18px;
+    transition: all 0.3s ease;
+
+    @media (max-width: 768px) {
+      width: 32px;
+      height: 32px;
+      font-size: 16px;
+    }
+  }
+
+  &:hover &-arrow {
+    background: rgba(255, 255, 255, 0.3);
+    color: #fff;
+    transform: translateX(4px);
+  }
+}
+
+// -----------------------------------------------------
+// Responsive Adjustments
+// -----------------------------------------------------
+@media (max-width: 768px) {
+  .SupportersPage {
+    &-intro {
+      padding: 40px 0;
+    }
+
+    &-section {
+      padding: 40px 0;
+    }
+
+    &-sectionHeader {
+      margin-bottom: 30px;
+    }
+  }
+
+  .SupportersHero {
+    padding: 60px 0;
+  }
+
+  .DonationLinks {
+    padding: 60px 0;
+  }
+}
+
+// =====================================================
+// Contribute Page Styles
+// =====================================================
+
+.ContributePage {
+  .Page-main {
+    padding: 0;
+  }
+
+  &-contributionTypes {
+    background: var(--body-bg);
+    padding: 80px 0;
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 768px) {
+      padding: 50px 0;
+    }
+  }
+
+  &-typeGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+  }
+}
+
+// -----------------------------------------------------
+// Dark Mode Support
+// -----------------------------------------------------
+@media (prefers-color-scheme: dark) {
+  .SupportersPage {
+    &-intro {
+      background: var(--body-bg);
+    }
+
+    &-section {
+      &:nth-child(even) {
+        background: rgba(255, 255, 255, 0.03);
+      }
+    }
+  }
+
+  .SupporterCard {
+    background: var(--control-bg);
+    border-color: rgba(255, 255, 255, 0.1);
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+  }
+
+  .SupporterCards--featured .SupporterCard {
+    background: linear-gradient(135deg, color-mix(in srgb, var(--secondary-color) 10%, transparent), color-mix(in srgb, var(--secondary-color) 20%, black 90%));
+
+    &:hover {
+      background: linear-gradient(135deg, color-mix(in srgb, var(--secondary-color) 15%, transparent), color-mix(in srgb, var(--secondary-color) 30%, black 85%));
+    }
+  }
+}

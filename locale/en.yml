@@ -1,0 +1,106 @@
+flarum-discuss:
+  admin:
+    settings:
+      donation_link:
+        github_label: GitHub Sponsors URL
+        opencollective_label: Open Collective URL
+      monthly_group_label: Monthly Supporters Group
+      one_time_group_label: One-Time Supporters Group
+      stats:
+        github_stars_label: GitHub Stars Count
+        framework_commits_label: Framework Commits
+        framework_contributors_label: Framework Contributors
+
+  forum:
+    supporters:
+      title: Supporters
+      meta_title: Our Supporters
+      heading: Thank You, Supporters
+      description: We are grateful for the support from our community members.
+
+      # Hero Section
+      hero_title: Thank You, Supporters
+      hero_subtitle: Flarum is built by passionate volunteers and sustained by generous supporters like you
+
+      # Introduction
+      intro_text: >
+        Every person and organisation listed here has contributed to making Flarum possible. Whether through
+        monthly support or one-time contributions, your generosity enables us to continue
+        building better forum software for everyone.
+
+      # Monthly Supporters Section
+      monthly_supporters_title: Monthly Supporters
+      monthly_supporters_description: >
+        These amazing individuals and organisations provide ongoing support through monthly contributions,
+        enabling sustained development and maintenance of Flarum.
+      no_monthly_yet: No monthly supporters yet. Be the first to support Flarum!
+
+      # Supporters Section
+      supporters_title: Community Supporters
+      supporters_description: >
+        We're grateful to everyone who has contributed to Flarum, whether through
+        one-time donations or previous monthly support.
+      no_supporters_yet: No community supporters yet. Your contribution makes a difference!
+
+      # How to Appear Section
+      how_to_appear_title: How to Appear on This Page
+      how_to_appear_description: >
+        Want to be recognized as a Flarum supporter? Here's what you need to do to appear on this page.
+
+      requirement_account_title: Create a discuss.flarum.org Account
+      requirement_account_text: >
+        First, you'll need an account on discuss.flarum.org. This is where we'll display your profile and contributions.
+
+      requirement_github_title: Support via GitHub Sponsors
+      requirement_github_text: >
+        Contribute through GitHub Sponsors with either a public email matching your discuss account, or connect your discuss account with GitHub via SSO/OAuth.
+
+      requirement_opencollective_title: Support via Open Collective
+      requirement_opencollective_text: >
+        Contribute through Open Collective. Your discuss account email must match your Open Collective email, and your email address must be public on your Open Collective profile.
+
+      # Donation Links
+      donate_heading: Support Flarum
+      donate_description: >
+        Your contribution helps us continue developing and maintaining Flarum as free,
+        open-source software for the community.
+      github_sponsors: GitHub Sponsors
+      github_sponsors_description: Support us through GitHub's sponsorship platform
+      open_collective: Open Collective
+      open_collective_description: Contribute through Open Collective with transparent funding
+
+      # Impact Stats
+      stats:
+        supporters: Supporters
+        github_stars: GitHub Stars
+        framework_commits: Framework Commits
+        framework_contributors: Contributors
+
+    contribute:
+      title: Contribute
+      meta_title: Contribute to Flarum
+      heading: Ways to Contribute
+      description: >
+        Flarum thrives thanks to passionate individuals who contribute in diverse ways.
+        Every contribution, big or small, helps us build better forum software for everyone.
+
+      # Hero Section
+      hero_title: Help Build Flarum
+      hero_subtitle: Join our community of contributors and help make Flarum better for everyone
+
+      # Contribution Types
+      type_code_title: Code
+      type_code_desc: >
+        Submit pull requests, fix bugs, and build new features for Flarum's core and extensions.
+
+      type_docs_title: Documentation
+      type_docs_desc: >
+        Help others succeed with Flarum by writing guides, improving docs, and creating tutorials.
+
+      type_i18n_title: Translations
+      type_i18n_desc: >
+        Make Flarum accessible worldwide by translating the interface and documentation.
+
+      type_financial_title: Financial Support
+      type_financial_desc: >
+        Sustain ongoing development and enable maintainers to dedicate time to Flarum.
