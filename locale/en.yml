@@ -23,6 +23,7 @@ flarum-discuss:
         Every person and organisation listed here has contributed to making Flarum possible. Whether through
         monthly support or one-time contributions, your generosity enables us to continue
         building better forum software for everyone.
+      become_supporter_button: Become a Supporter
 
       # Monthly Supporters Section
       monthly_supporters_title: Monthly Supporters
@@ -70,7 +71,7 @@ flarum-discuss:
         supporters: Supporters
         github_stars: GitHub Stars
         framework_commits: Framework Commits
-        framework_contributors: Contributors
+        framework_contributors: Code Contributors
 
     contribute:
       title: Contribute
@@ -100,3 +101,24 @@ flarum-discuss:
       type_financial_title: Financial Support
       type_financial_desc: >
         Sustain ongoing development and enable maintainers to dedicate time to Flarum.
+
+      # Funding Use Section
+      funding_use_title: How We Use Your Support
+      funding_use_description: >
+        Your contributions directly fund Flarum's development and sustainability. Here's where your support goes.
+
+      funding_development_title: Development & Maintenance
+      funding_development_desc: >
+        Core development work, bug fixes, new features, and ongoing maintenance to keep Flarum secure and up-to-date.
+
+      funding_security_title: Security Assessments
+      funding_security_desc: >
+        Professional security audits and assessments to ensure Flarum remains secure and reliable for your communities.
+
+      funding_bounties_title: Community Bounties
+      funding_bounties_desc: >
+        Rewarding community members who contribute features, extensions, and improvements that benefit everyone.
+
+      funding_operations_title: Operating Costs
+      funding_operations_desc: >
+        Infrastructure, hosting, domain names, and services that keep Flarum's ecosystem running smoothly.

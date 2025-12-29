@@ -46,6 +46,7 @@ export default class ContributePage<CustomAttrs extends IContributePageAttrs = I
 
     items.add('contributionTypes', this.contributionTypesSection(), 100);
     items.add('impactStats', <ImpactStats />, 90);
+    items.add('fundingUse', this.fundingUseSection(), 85);
     items.add('donate', this.donationSection(), 80);
 
     return items;
@@ -94,6 +95,56 @@ export default class ContributePage<CustomAttrs extends IContributePageAttrs = I
               </div>
               <h3 className="ContributionType-title">{app.translator.trans('flarum-discuss.forum.contribute.type_financial_title')}</h3>
               <p className="ContributionType-description">{app.translator.trans('flarum-discuss.forum.contribute.type_financial_desc')}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  /**
+   * Funding use section showing how funds are spent
+   */
+  fundingUseSection(): Mithril.Children {
+    return (
+      <div className="ContributePage-fundingUse">
+        <div className="container">
+          <div className="InfoPage-sectionHeader">
+            <h2 className="InfoPage-sectionTitle">{app.translator.trans('flarum-discuss.forum.contribute.funding_use_title')}</h2>
+            <p className="InfoPage-sectionLead">{app.translator.trans('flarum-discuss.forum.contribute.funding_use_description')}</p>
+          </div>
+
+          <div className="FundingUse-grid">
+            <div className="FundingUse-item">
+              <div className="FundingUse-icon">
+                <Icon name="fas fa-laptop-code" />
+              </div>
+              <h3 className="FundingUse-title">{app.translator.trans('flarum-discuss.forum.contribute.funding_development_title')}</h3>
+              <p className="FundingUse-description">{app.translator.trans('flarum-discuss.forum.contribute.funding_development_desc')}</p>
+            </div>
+
+            <div className="FundingUse-item">
+              <div className="FundingUse-icon">
+                <Icon name="fas fa-shield-alt" />
+              </div>
+              <h3 className="FundingUse-title">{app.translator.trans('flarum-discuss.forum.contribute.funding_security_title')}</h3>
+              <p className="FundingUse-description">{app.translator.trans('flarum-discuss.forum.contribute.funding_security_desc')}</p>
+            </div>
+
+            <div className="FundingUse-item">
+              <div className="FundingUse-icon">
+                <Icon name="fas fa-gift" />
+              </div>
+              <h3 className="FundingUse-title">{app.translator.trans('flarum-discuss.forum.contribute.funding_bounties_title')}</h3>
+              <p className="FundingUse-description">{app.translator.trans('flarum-discuss.forum.contribute.funding_bounties_desc')}</p>
+            </div>
+
+            <div className="FundingUse-item">
+              <div className="FundingUse-icon">
+                <Icon name="fas fa-server" />
+              </div>
+              <h3 className="FundingUse-title">{app.translator.trans('flarum-discuss.forum.contribute.funding_operations_title')}</h3>
+              <p className="FundingUse-description">{app.translator.trans('flarum-discuss.forum.contribute.funding_operations_desc')}</p>
             </div>
           </div>
         </div>

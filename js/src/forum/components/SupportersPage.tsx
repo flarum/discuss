@@ -3,6 +3,7 @@ import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
 import ItemList from 'flarum/common/utils/ItemList';
 import extractText from 'flarum/common/utils/extractText';
 import Icon from 'flarum/common/components/Icon';
+import Button from 'flarum/common/components/Button';
 import type Mithril from 'mithril';
 import type User from 'flarum/common/models/User';
 
@@ -196,6 +197,11 @@ export default class SupportersPage<CustomAttrs extends ISupportersPageAttrs = I
           </div>
           <div className="SupportersPage-introText">
             <p>{app.translator.trans('flarum-discuss.forum.supporters.intro_text')}</p>
+            <div className="SupportersPage-introActions">
+              <Button icon="fas fa-heart" className="Button Button--primary" onclick={() => m.route.set(app.route('contribute'))}>
+                {app.translator.trans('flarum-discuss.forum.supporters.become_supporter_button')}
+              </Button>
+            </div>
           </div>
         </div>
       </div>
