@@ -85,6 +85,8 @@
     "require-dev": {
         "flarum/testing": "^2.0",
         "flarum/phpstan": "^2.0",
-        "fof/user-bio": "*"
+        "fof/user-bio": "*",
+        "fof/github-sponsors": "*",
+        "fof/open-collective": "*"
     }
 }

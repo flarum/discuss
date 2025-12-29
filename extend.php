@@ -9,6 +9,7 @@
 
 namespace Flarum\Discuss;
 
+use Flarum\Api\Resource\ForumResource;
 use Flarum\Discuss\Console\UpdateStatsCommand;
 use Flarum\Discuss\Content\Supporters;
 use Flarum\Extend;
@@ -46,4 +47,10 @@ return [
         ->schedule(UpdateStatsCommand::class, function (Event $event) {
             $event->twiceDaily();
         }),
+
+    (new Extend\ApiResource(ForumResource::class))
+        ->fields(Api\AddForumResourceFields::class),
+
+    (new Extend\Event())
+        ->subscribe(Listeners\ClearSupportersCache::class),
 ];

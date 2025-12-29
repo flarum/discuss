@@ -13,6 +13,7 @@ use Flarum\Api\Client;
 use Flarum\Frontend\Document;
 use Flarum\Http\UrlGenerator;
 use Flarum\Locale\TranslatorInterface;
+use Flarum\Settings\SettingsRepositoryInterface;
 use Illuminate\Contracts\View\Factory;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -22,15 +23,18 @@ class Supporters
         protected Client $api,
         protected Factory $view,
         protected TranslatorInterface $translator,
-        protected UrlGenerator $url
+        protected UrlGenerator $url,
+        protected SettingsRepositoryInterface $settings
     ) {
     }
 
     public function __invoke(Document $document, Request $request): Document
     {
-        // Optional: Load data from API
-        // $apiDocument = $this->getApiDocument($request);
-        // $document->payload['apiDocument'] = $apiDocument;
+        // Preload supporters data
+        $apiDocument = $this->getApiDocument($request);
+        if ($apiDocument) {
+            $document->payload['apiDocument'] = $apiDocument;
+        }
 
         // Set page metadata
         $document->title = $this->translator->trans('flarum-discuss.forum.supporters.meta_title');
@@ -39,25 +43,44 @@ class Supporters
         // Set canonical URL
         $document->canonicalUrl = $this->url->to('forum')->route('supporters');
 
-        // Optional: Set server-rendered content (for SEO)
-        // $document->content = $this->view->make('flarum-discuss::supporters', compact('data'));
-
         return $document;
     }
 
     /**
-     * Optional: Get data from API endpoint.
-     *
-     * protected function getApiDocument(Request $request): object
-     * {
-     *     return json_decode(
-     *         $this->api
-     *             ->withoutErrorHandling()
-     *             ->withParentRequest($request)
-     *             ->get('/your-api-endpoint')
-     *             ->getBody(),
-     *         false
-     *     );
-     * }
+     * Get supporters data from API endpoint.
      */
+    protected function getApiDocument(Request $request): ?object
+    {
+        $monthlyGroupId = $this->settings->get('flarum-discuss.supporters.monthly-group');
+        $oneTimeGroupId = $this->settings->get('flarum-discuss.supporters.one-time-group');
+
+        // Build filter query for both groups
+        $filters = [];
+        if ($monthlyGroupId) {
+            $filters[] = "group:$monthlyGroupId";
+        }
+        if ($oneTimeGroupId) {
+            $filters[] = "group:$oneTimeGroupId";
+        }
+
+        if (empty($filters)) {
+            return null;
+        }
+
+        $query = implode(' OR ', $filters);
+
+        try {
+            return json_decode(
+                $this->api
+                    ->withoutErrorHandling()
+                    ->withParentRequest($request)
+                    ->get("/users?filter[q]=$query&include=groups")
+                    ->getBody(),
+                false
+            );
+        } catch (\Exception) {
+            // If API call fails, return null and let the frontend load the data
+            return null;
+        }
+    }
 }

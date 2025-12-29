@@ -24,7 +24,7 @@ export default class SupporterCard<CustomAttrs extends SupporterCardAttrs = Supp
     const featured = this.attrs.featured || false;
 
     return (
-      <div className="SupporterCard">
+      <div className={`SupporterCard${featured ? ' SupporterCard--featured' : ''}`}>
         <Link href={app.route.user(user)} className="SupporterCard-link">
           <div className="SupporterCard-avatar">
             <Avatar user={user} loading="lazy" />
