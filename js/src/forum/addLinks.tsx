@@ -2,8 +2,6 @@ import app from 'flarum/forum/app';
 import { extend } from 'flarum/common/extend';
 import IndexSidebar from 'flarum/forum/components/IndexSidebar';
 import LinkButton from 'flarum/common/components/LinkButton';
-import SupportersPage from './components/SupportersPage';
-import ContributePage from './components/ContributePage';
 
 export default function addLinks() {
   // Add links to the supporters and contribute pages in the sidebar
@@ -25,7 +23,8 @@ export default function addLinks() {
     );
 
     // Only remove individual tag items when on the Supporters or Contribute page
-    if (app.current.matches(SupportersPage) || app.current.matches(ContributePage)) {
+    const routeName = app.current.get('routeName');
+    if (routeName === 'supporters' || routeName === 'contribute') {
       // Remove the separator and all individual tag items added by flarum/tags
       items.remove('separator');
 

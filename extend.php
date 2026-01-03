@@ -18,6 +18,7 @@ return [
     (new Extend\Frontend('forum'))
         ->js(__DIR__.'/js/dist/forum.js')
         ->css(__DIR__.'/less/forum.less')
+        ->jsDirectory(__DIR__.'/js/dist/forum')
         ->route('/supporters', 'supporters', Content\Supporters::class)
         ->route('/contribute', 'contribute', Content\Contribute::class),
 
