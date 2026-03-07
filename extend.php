@@ -52,5 +52,6 @@ return [
         ->fields(Api\AddForumResourceFields::class),
 
     (new Extend\Event())
-        ->subscribe(Listeners\ClearSupportersCache::class),
+        ->subscribe(Listeners\ClearSupportersCache::class)
+        ->listen(\Flarum\Post\Event\Saving::class, Listeners\BlockBannedLinks::class),
 ];
