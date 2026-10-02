@@ -88,12 +88,12 @@ class AddForumResourceFields
         $discussions = Discussion::query()->whereNull('hidden_at')->where('is_private', false);
 
         return [
-            'members'          => User::query()->where('is_email_confirmed', true)->count(),
-            'discussions'      => (clone $discussions)->count(),
-            'posts'            => CommentPost::query()->whereNull('hidden_at')->where('is_private', false)->count(),
-            'postsToday'       => CommentPost::query()->whereNull('hidden_at')->where('is_private', false)->where('created_at', '>=', $now->copy()->subDay())->count(),
-            'newMembersWeek'   => User::query()->where('is_email_confirmed', true)->where('joined_at', '>=', $now->copy()->subWeek())->count(),
-            'questionsSolved'  => $this->extensions->isEnabled('fof-best-answer')
+            'members' => User::query()->where('is_email_confirmed', true)->count(),
+            'discussions' => (clone $discussions)->count(),
+            'posts' => CommentPost::query()->whereNull('hidden_at')->where('is_private', false)->count(),
+            'postsToday' => CommentPost::query()->whereNull('hidden_at')->where('is_private', false)->where('created_at', '>=', $now->copy()->subDay())->count(),
+            'newMembersWeek' => User::query()->where('is_email_confirmed', true)->where('joined_at', '>=', $now->copy()->subWeek())->count(),
+            'questionsSolved' => $this->extensions->isEnabled('fof-best-answer')
                 ? (clone $discussions)->whereNotNull('best_answer_post_id')->count()
                 : null,
         ];
