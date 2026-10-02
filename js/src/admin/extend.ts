@@ -3,6 +3,19 @@ import Extend from 'flarum/common/extenders';
 import commonExtend from '../common/extend';
 import Group from 'flarum/common/models/Group';
 
+function groupOptions(): Record<string, string> {
+  const options: Record<string, string> = {};
+
+  app.store
+    .all<Group>('groups')
+    .filter((group) => group.id() !== Group.GUEST_ID && group.id() !== Group.MEMBER_ID)
+    .forEach((group) => {
+      options[group.id()!] = group.namePlural();
+    });
+
+  return options;
+}
+
 export default [
   ...commonExtend,
 
@@ -17,44 +30,16 @@ export default [
       label: app.translator.trans('flarum-discuss.admin.settings.donation_link.opencollective_label'),
       type: 'text',
     }))
-    .setting(() => {
-      const groups = app.store.all<Group>('groups');
-      const options: Record<string, string> = {};
-
-      groups
-        .filter((group) => {
-          const id = group.id()!;
-          return id !== Group.GUEST_ID && id !== Group.MEMBER_ID;
-        })
-        .forEach((group) => {
-          options[group.id()!] = group.namePlural();
-        });
-
-      return {
-        setting: 'flarum-discuss.supporters.monthly-group',
-        label: app.translator.trans('flarum-discuss.admin.settings.monthly_group_label'),
-        type: 'select',
-        options: options,
-      };
-    })
-    .setting(() => {
-      const groups = app.store.all<Group>('groups');
-      const options: Record<string, string> = {};
-
-      groups
-        .filter((group) => {
-          const id = group.id()!;
-          return id !== Group.GUEST_ID && id !== Group.MEMBER_ID;
-        })
-        .forEach((group) => {
-          options[group.id()!] = group.namePlural();
-        });
-
-      return {
-        setting: 'flarum-discuss.supporters.one-time-group',
-        label: app.translator.trans('flarum-discuss.admin.settings.one_time_group_label'),
-        type: 'select',
-        options: options,
-      };
-    }),
+    .setting(() => ({
+      setting: 'flarum-discuss.supporters.monthly-group',
+      label: app.translator.trans('flarum-discuss.admin.settings.monthly_group_label'),
+      type: 'select',
+      options: groupOptions(),
+    }))
+    .setting(() => ({
+      setting: 'flarum-discuss.supporters.one-time-group',
+      label: app.translator.trans('flarum-discuss.admin.settings.one_time_group_label'),
+      type: 'select',
+      options: groupOptions(),
+    })),
 ];

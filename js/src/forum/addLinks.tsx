@@ -7,6 +7,14 @@ export default function addLinks() {
   // Add links to the supporters and contribute pages in the sidebar
   extend(IndexSidebar.prototype, 'navItems', function (items) {
     items.add(
+      'home',
+      <LinkButton icon="fas fa-home" href={app.route('home')}>
+        {app.translator.trans('flarum-discuss.forum.home.title')}
+      </LinkButton>,
+      110
+    );
+
+    items.add(
       'supporters',
       <LinkButton icon="fas fa-heart" href={app.route('supporters')}>
         {app.translator.trans('flarum-discuss.forum.supporters.title')}
@@ -22,9 +30,9 @@ export default function addLinks() {
       14
     );
 
-    // Only remove individual tag items when on the Supporters or Contribute page
+    // Only remove individual tag items when on the Custom Home, Supporters or Contribute pages
     const routeName = app.current.get('routeName');
-    if (routeName === 'supporters' || routeName === 'contribute') {
+    if (routeName === 'supporters' || routeName === 'contribute' || routeName === 'home') {
       // Remove the separator and all individual tag items added by flarum/tags
       items.remove('separator');
 

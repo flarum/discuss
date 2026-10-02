@@ -6,8 +6,79 @@ flarum-discuss:
         opencollective_label: Open Collective URL
       monthly_group_label: Monthly Supporters Group
       one_time_group_label: One-Time Supporters Group
+    basics:
+      home_label: Discuss Home
 
   forum:
+    home:
+      title: Home
+      description: >-
+        The official community for Flarum, the free and open-source forum software. Discover new extensions,
+        get help, and meet the people building Flarum.
+
+      # Hero Section
+      hero_title_guest: Welcome to the Flarum Community
+      hero_subtitle_guest: >
+        The official home of Flarum, the simple, fast and free forum software. Get help, discover extensions,
+        and help shape what comes next.
+      hero_title_user: "Welcome back, {username}!"
+      hero_subtitle_user: Here's what's been happening in the community.
+      join_button: Join the Community
+      browse_button: Browse Discussions
+
+      # Sections
+      blog_title: Latest announcements
+      blog_read_more: Read more
+      blog_pinned: Pinned
+      extensions_title: New Extensions
+      extensions_description: The latest extensions announced by the Flarum community.
+      latest_title: Latest Discussions
+      latest_description: Catch up on the newest conversations from across the community.
+      view_all: View all
+      empty: Nothing here yet.
+      started_by: "{username} started {ago}"
+      replied_by: "{username} replied {ago}"
+
+      # Community Pulse
+      pulse_label: Community stats
+      stats:
+        online_now: Online now
+        posts_today: Posts in 24h
+        new_members_week: New members this week
+        questions_solved: Questions solved
+        members: Members
+        discussions: Discussions
+        posts: Posts
+
+      # Top Contributors (fof/gamification)
+      contributors_title: Top Contributors
+      contributors_description: "This month · {metric}"
+      contributors_empty: The leaderboard is wide open this month. Jump in!
+
+      # Recently Solved (fof/best-answer)
+      solved_title: Recently Solved
+      solved_description: Support questions the community has just helped answer.
+      solved_by: "Answered by {username} {ago}"
+
+      # Get Involved
+      divider_label: Get involved
+      docs_title: New to Flarum? Start with the docs
+      docs_description: >
+        Everything you need to install, configure and extend Flarum, from your first forum to your first extension.
+      docs_button: Read the Documentation
+      docs_install: Install Flarum
+      docs_install_desc: Requirements and a step-by-step setup guide
+      docs_update: Update Flarum
+      docs_update_desc: Keep your forum current and secure
+      docs_extend: Build an extension
+      docs_extend_desc: The extension developer guide
+      docs_troubleshoot: Troubleshooting
+      docs_troubleshoot_desc: Fixes for the most common problems
+      docs_support: Ask the community
+      docs_support_desc: Still stuck? Post in Support
+      contribute_button: Ways to Contribute
+      supporters_button: Meet Our Supporters
+
     supporters:
       title: Supporters
       meta_title: Our Supporters

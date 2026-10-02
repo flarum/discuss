@@ -34,7 +34,12 @@
                 "backgroundPosition": "center"
             },
             "optional-dependencies": [
-                "fof/user-bio"
+                "fof/user-bio",
+                "fof/gamification",
+                "fof/best-answer",
+                "fof/online-users-widget",
+                "flarum/sticky",
+                "fof/seo"
             ]
         },
         "flarum-cli": {
@@ -66,7 +71,7 @@
         }
     },
     "scripts": {
-        "analyse:phpstan": "phpstan analyse",
+        "analyse:phpstan": "phpstan analyse --memory-limit=1G",
         "clear-cache:phpstan": "phpstan clear-result-cache",
         "test": [
             "@test:unit",
@@ -87,6 +92,11 @@
         "flarum/phpstan": "^2.0",
         "fof/user-bio": "*",
         "fof/github-sponsors": "*",
-        "fof/open-collective": "*"
+        "fof/open-collective": "*",
+        "fof/gamification": "2.x-dev",
+        "fof/best-answer": "*",
+        "fof/online-users-widget": "*",
+        "flarum/sticky": "*",
+        "fof/seo": "*"
     }
 }

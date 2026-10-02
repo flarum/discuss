@@ -9,9 +9,12 @@
 
 namespace Flarum\Discuss;
 
+use Flarum\Api\Resource\DiscussionResource;
 use Flarum\Api\Resource\ForumResource;
+use Flarum\Api\Sort\SortColumn;
 use Flarum\Discuss\Console\UpdateStatsCommand;
 use Flarum\Extend;
+use Flarum\Extension\Event as ExtensionEvent;
 use Illuminate\Console\Scheduling\Event;
 
 return [
@@ -19,6 +22,7 @@ return [
         ->js(__DIR__.'/js/dist/forum.js')
         ->css(__DIR__.'/less/forum.less')
         ->jsDirectory(__DIR__.'/js/dist/forum')
+        ->route('/home', 'home', Content\Home::class)
         ->route('/supporters', 'supporters', Content\Supporters::class)
         ->route('/contribute', 'contribute', Content\Contribute::class),
 
@@ -27,6 +31,9 @@ return [
         ->css(__DIR__.'/less/admin.less'),
 
     new Extend\Locales(__DIR__.'/locale'),
+
+    (new Extend\View())
+        ->namespace('flarum-discuss', __DIR__.'/resources/views'),
 
     (new Extend\Settings())
         ->default('flarum-discuss.donation-link.github', 'https://github.com/sponsors/flarum')
@@ -51,7 +58,22 @@ return [
     (new Extend\ApiResource(ForumResource::class))
         ->fields(Api\AddForumResourceFields::class),
 
+    (new Extend\Conditional())
+        ->whenExtensionEnabled('fof-seo', fn () => [
+            (new \FoF\Seo\Extend\SEO())
+                ->addExtender('discuss_home', Seo\HomePage::class),
+        ])
+        ->whenExtensionEnabled('fof-best-answer', fn () => [
+            // Lets the homepage list support questions by when they were solved, not last activity.
+            (new Extend\ApiResource(DiscussionResource::class))
+                ->sorts(fn () => [
+                    SortColumn::make('bestAnswerSetAt'),
+                ]),
+        ]),
+
     (new Extend\Event())
         ->subscribe(Listeners\ClearSupportersCache::class)
-        ->listen(\Flarum\Post\Event\Saving::class, Listeners\BlockBannedLinks::class),
+        ->listen(\Flarum\Post\Event\Saving::class, Listeners\BlockBannedLinks::class)
+        ->listen(ExtensionEvent\Enabled::class, Listeners\ClearCommunityStatsCache::class)
+        ->listen(ExtensionEvent\Disabled::class, Listeners\ClearCommunityStatsCache::class),
 ];

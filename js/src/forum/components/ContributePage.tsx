@@ -5,6 +5,7 @@ import Icon from 'flarum/common/components/Icon';
 import type Mithril from 'mithril';
 
 import BaseInfoPage, { IBaseInfoPageAttrs } from './BaseInfoPage';
+import ContributionTypes from './ContributionTypes';
 import DonationLinks from './DonationLinks';
 import ImpactStats from './ImpactStats';
 
@@ -64,39 +65,7 @@ export default class ContributePage<CustomAttrs extends IContributePageAttrs = I
             <p className="InfoPage-sectionLead">{app.translator.trans('flarum-discuss.forum.contribute.description')}</p>
           </div>
 
-          <div className="ContributePage-typeGrid">
-            <div className="ContributionType">
-              <div className="ContributionType-icon">
-                <Icon name="fas fa-code" />
-              </div>
-              <h3 className="ContributionType-title">{app.translator.trans('flarum-discuss.forum.contribute.type_code_title')}</h3>
-              <p className="ContributionType-description">{app.translator.trans('flarum-discuss.forum.contribute.type_code_desc')}</p>
-            </div>
-
-            <div className="ContributionType">
-              <div className="ContributionType-icon">
-                <Icon name="fas fa-book" />
-              </div>
-              <h3 className="ContributionType-title">{app.translator.trans('flarum-discuss.forum.contribute.type_docs_title')}</h3>
-              <p className="ContributionType-description">{app.translator.trans('flarum-discuss.forum.contribute.type_docs_desc')}</p>
-            </div>
-
-            <div className="ContributionType">
-              <div className="ContributionType-icon">
-                <Icon name="fas fa-language" />
-              </div>
-              <h3 className="ContributionType-title">{app.translator.trans('flarum-discuss.forum.contribute.type_i18n_title')}</h3>
-              <p className="ContributionType-description">{app.translator.trans('flarum-discuss.forum.contribute.type_i18n_desc')}</p>
-            </div>
-
-            <div className="ContributionType">
-              <div className="ContributionType-icon">
-                <Icon name="fas fa-heart" />
-              </div>
-              <h3 className="ContributionType-title">{app.translator.trans('flarum-discuss.forum.contribute.type_financial_title')}</h3>
-              <p className="ContributionType-description">{app.translator.trans('flarum-discuss.forum.contribute.type_financial_desc')}</p>
-            </div>
-          </div>
+          <ContributionTypes />
         </div>
       </div>
     );
