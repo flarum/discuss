@@ -47,14 +47,14 @@ class Home
 
         // What crawlers and no-JS clients see.
         $document->content = $this->view->make('flarum-discuss::home', [
-            'blog'          => HomeFeed::blogPosts($documents),
-            'extensions'    => $documents['extensions']['data'] ?? [],
-            'latest'        => isset($documents['latest']) ? HomeFeed::latestDiscussions($documents['latest']) : [],
-            'solved'        => $documents['solved']['data'] ?? [],
-            'blogTag'       => HomeFeed::BLOG_TAG,
+            'blog' => HomeFeed::blogPosts($documents),
+            'extensions' => $documents['extensions']['data'] ?? [],
+            'latest' => isset($documents['latest']) ? HomeFeed::latestDiscussions($documents['latest']) : [],
+            'solved' => $documents['solved']['data'] ?? [],
+            'blogTag' => HomeFeed::BLOG_TAG,
             'extensionsTag' => HomeFeed::EXTENSIONS_TAG,
-            'supportTag'    => HomeFeed::SUPPORT_TAG,
-            'docsUrl'       => self::DOCS_URL,
+            'supportTag' => HomeFeed::SUPPORT_TAG,
+            'docsUrl' => self::DOCS_URL,
         ]);
 
         return $document;

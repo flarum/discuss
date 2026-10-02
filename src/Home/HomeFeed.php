@@ -59,9 +59,9 @@ class HomeFeed
     protected function queries(): array
     {
         $blog = fn (array $filter, int $limit) => [
-            'filter'  => ['tag' => self::BLOG_TAG] + $filter,
-            'sort'    => '-createdAt',
-            'page'    => ['limit' => $limit],
+            'filter' => ['tag' => self::BLOG_TAG] + $filter,
+            'sort' => '-createdAt',
+            'page' => ['limit' => $limit],
             'include' => 'user,firstPost',
         ];
 
@@ -71,25 +71,25 @@ class HomeFeed
             : ['blog' => $blog([], 2)];
 
         $queries['extensions'] = [
-            'filter'  => ['tag' => self::EXTENSIONS_TAG],
-            'sort'    => '-createdAt',
-            'page'    => ['limit' => 8],
+            'filter' => ['tag' => self::EXTENSIONS_TAG],
+            'sort' => '-createdAt',
+            'page' => ['limit' => 8],
             'include' => 'user,tags',
         ];
 
         // Unfiltered, so it gets the same /all treatment (hidden tags etc.);
         // extensions are dropped from this buffer by the consumer.
         $queries['latest'] = [
-            'sort'    => '-lastPostedAt',
-            'page'    => ['limit' => 20],
+            'sort' => '-lastPostedAt',
+            'page' => ['limit' => 20],
             'include' => 'user,lastPostedUser,tags',
         ];
 
         if ($this->extensions->isEnabled('fof-best-answer')) {
             $queries['solved'] = [
-                'filter'  => ['tag' => self::SUPPORT_TAG, 'solved-discussions' => 'true'],
-                'sort'    => '-bestAnswerSetAt',
-                'page'    => ['limit' => 5],
+                'filter' => ['tag' => self::SUPPORT_TAG, 'solved-discussions' => 'true'],
+                'sort' => '-bestAnswerSetAt',
+                'page' => ['limit' => 5],
                 'include' => 'bestAnswerPost.user',
             ];
         }
@@ -141,7 +141,7 @@ class HomeFeed
 
         return array_map(fn (array $discussion) => [
             'discussion' => $discussion,
-            'excerpt'    => self::excerpt($included, $discussion),
+            'excerpt' => self::excerpt($included, $discussion),
         ], $posts);
     }
 
