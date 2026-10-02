@@ -34,7 +34,11 @@
                 "backgroundPosition": "center"
             },
             "optional-dependencies": [
-                "fof/user-bio"
+                "fof/user-bio",
+                "fof/gamification",
+                "fof/best-answer",
+                "fof/online-users-widget",
+                "flarum/sticky"
             ]
         },
         "flarum-cli": {
@@ -87,6 +91,10 @@
         "flarum/phpstan": "^2.0",
         "fof/user-bio": "*",
         "fof/github-sponsors": "*",
-        "fof/open-collective": "*"
+        "fof/open-collective": "*",
+        "fof/gamification": "2.x-dev",
+        "fof/best-answer": "*",
+        "fof/online-users-widget": "*",
+        "flarum/sticky": "*"
     }
 }

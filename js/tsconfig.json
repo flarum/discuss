@@ -8,6 +8,7 @@
       "src/**/*",
       "../vendor/*/*/js/dist-typings/@types/**/*",
 // <CUSTOM-1>
+      "../vendor/flarum/tags/js/dist-typings/@types/**/*",
 // </CUSTOM-1>
       "@types/**/*"
 ],
@@ -18,6 +19,7 @@
     "paths": {
       "flarum/*": ["../vendor/flarum/core/js/dist-typings/*"],
 // <CUSTOM-2>
+      "ext:flarum/tags/*": ["../vendor/flarum/tags/js/dist-typings/*"],
 // </CUSTOM-2>
     }
   }

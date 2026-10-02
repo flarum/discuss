@@ -9,9 +9,12 @@
 
 namespace Flarum\Discuss;
 
+use Flarum\Api\Resource\DiscussionResource;
 use Flarum\Api\Resource\ForumResource;
+use Flarum\Api\Sort\SortColumn;
 use Flarum\Discuss\Console\UpdateStatsCommand;
 use Flarum\Extend;
+use Flarum\Extension\Event as ExtensionEvent;
 use Illuminate\Console\Scheduling\Event;
 
 return [
@@ -19,6 +22,7 @@ return [
         ->js(__DIR__.'/js/dist/forum.js')
         ->css(__DIR__.'/less/forum.less')
         ->jsDirectory(__DIR__.'/js/dist/forum')
+        ->route('/home', 'home', Content\Home::class)
         ->route('/supporters', 'supporters', Content\Supporters::class)
         ->route('/contribute', 'contribute', Content\Contribute::class),
 
@@ -38,6 +42,7 @@ return [
         ->serializeToForum('openCollectiveUrl', 'flarum-discuss.donation-link.opencollective')
         ->serializeToForum('monthlySupportersGroupId', 'flarum-discuss.supporters.monthly-group')
         ->serializeToForum('oneTimeSupportersGroupId', 'flarum-discuss.supporters.one-time-group')
+        ->serializeToForum('teamGroupId', 'flarum-discuss.home.team-group')
         ->serializeToForum('githubStars', 'flarum-discuss.supporters.github-stars', 'intval')
         ->serializeToForum('frameworkCommits', 'flarum-discuss.supporters.framework-commits', 'intval')
         ->serializeToForum('frameworkContributors', 'flarum-discuss.supporters.framework-contributors', 'intval'),
@@ -51,7 +56,18 @@ return [
     (new Extend\ApiResource(ForumResource::class))
         ->fields(Api\AddForumResourceFields::class),
 
+    (new Extend\Conditional())
+        ->whenExtensionEnabled('fof-best-answer', fn () => [
+            // Lets the homepage list support questions by when they were solved, not last activity.
+            (new Extend\ApiResource(DiscussionResource::class))
+                ->sorts(fn () => [
+                    SortColumn::make('bestAnswerSetAt'),
+                ]),
+        ]),
+
     (new Extend\Event())
         ->subscribe(Listeners\ClearSupportersCache::class)
-        ->listen(\Flarum\Post\Event\Saving::class, Listeners\BlockBannedLinks::class),
+        ->listen(\Flarum\Post\Event\Saving::class, Listeners\BlockBannedLinks::class)
+        ->listen(ExtensionEvent\Enabled::class, Listeners\ClearCommunityStatsCache::class)
+        ->listen(ExtensionEvent\Disabled::class, Listeners\ClearCommunityStatsCache::class),
 ];
