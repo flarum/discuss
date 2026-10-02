@@ -153,10 +153,13 @@ class HomeFeed
      */
     public static function latestDiscussions(array $document): array
     {
-        $extensionTagIds = collect($document['included'] ?? [])
-            ->filter(fn (array $item) => $item['type'] === 'tags' && Arr::get($item, 'attributes.slug') === self::EXTENSIONS_TAG)
-            ->pluck('id')
-            ->all();
+        /** @var array<int, array<string, mixed>> $included */
+        $included = $document['included'] ?? [];
+
+        $extensionTagIds = array_column(array_filter(
+            $included,
+            fn (array $item) => $item['type'] === 'tags' && Arr::get($item, 'attributes.slug') === self::EXTENSIONS_TAG
+        ), 'id');
 
         $discussions = array_filter($document['data'] ?? [], function (array $discussion) use ($extensionTagIds) {
             $tagIds = array_column(Arr::get($discussion, 'relationships.tags.data', []), 'id');
