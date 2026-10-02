@@ -41,12 +41,5 @@ export default [
       label: app.translator.trans('flarum-discuss.admin.settings.one_time_group_label'),
       type: 'select',
       options: groupOptions(),
-    }))
-    .setting(() => ({
-      setting: 'flarum-discuss.home.team-group',
-      label: app.translator.trans('flarum-discuss.admin.settings.team_group_label'),
-      help: app.translator.trans('flarum-discuss.admin.settings.team_group_help'),
-      type: 'select',
-      options: groupOptions(),
     })),
 ];

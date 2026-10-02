@@ -6,8 +6,6 @@ flarum-discuss:
         opencollective_label: Open Collective URL
       monthly_group_label: Monthly Supporters Group
       one_time_group_label: One-Time Supporters Group
-      team_group_label: Team Group
-      team_group_help: Members of this group are shown in the "Meet the Team" section of the community homepage.
     basics:
       home_label: Discuss Home
 
@@ -80,10 +78,6 @@ flarum-discuss:
       docs_support_desc: Still stuck? Post in Support
       contribute_button: Ways to Contribute
       supporters_button: Meet Our Supporters
-
-      # Team
-      team_title: Meet the Team
-      team_description: The people who build, maintain and look after Flarum and this community.
 
     supporters:
       title: Supporters

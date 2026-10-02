@@ -30,9 +30,9 @@ export default function addLinks() {
       14
     );
 
-    // Only remove individual tag items when on the Supporters or Contribute page
+    // Only remove individual tag items when on the Custom Home, Supporters or Contribute pages
     const routeName = app.current.get('routeName');
-    if (routeName === 'supporters' || routeName === 'contribute') {
+    if (routeName === 'supporters' || routeName === 'contribute' || routeName === 'home') {
       // Remove the separator and all individual tag items added by flarum/tags
       items.remove('separator');
 

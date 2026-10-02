@@ -15,10 +15,10 @@ import HomeDiscussionCard from './HomeDiscussionCard';
 import BlogFeatureCard from './BlogFeatureCard';
 import CommunityPulse from './CommunityPulse';
 import TopContributors from './TopContributors';
+import findHomeSection from '../utils/homeFeed';
 import RecentlySolved from './RecentlySolved';
 import ContributionTypes from './ContributionTypes';
 import ImpactStats from './ImpactStats';
-import TeamSection from './TeamSection';
 import { SUPPORT_TAG_SLUG } from './RecentlySolved';
 
 export const EXTENSIONS_TAG_SLUG = 'extensions';
@@ -62,13 +62,12 @@ export default class HomePage<CustomAttrs extends IHomePageAttrs = IHomePageAttr
         m.redraw();
       });
 
-    app.store
-      .find<Discussion[]>('discussions', {
-        filter: { tag: EXTENSIONS_TAG_SLUG },
-        sort: '-createdAt',
-        page: { limit: 8 },
-        include: 'user,tags',
-      })
+    findHomeSection<Discussion>('extensions', {
+      filter: { tag: EXTENSIONS_TAG_SLUG },
+      sort: '-createdAt',
+      page: { limit: 8 },
+      include: 'user,tags',
+    })
       .then((discussions) => (this.extensionDiscussions = discussions))
       .catch(() => {})
       .finally(() => {
@@ -76,15 +75,14 @@ export default class HomePage<CustomAttrs extends IHomePageAttrs = IHomePageAttr
         m.redraw();
       });
 
-    app.store
-      // No filters, so the query is the same as /all's: tags only hides its
-      // hidden tags (and other extensions only apply their /all rules) on an
-      // unfiltered list. Extensions are dropped here instead, from a buffer.
-      .find<Discussion[]>('discussions', {
-        sort: '-lastPostedAt',
-        page: { limit: 20 },
-        include: 'user,lastPostedUser,tags',
-      })
+    // No filters, so the query is the same as /all's: tags only hides its
+    // hidden tags (and other extensions only apply their /all rules) on an
+    // unfiltered list. Extensions are dropped here instead, from a buffer.
+    findHomeSection<Discussion>('latest', {
+      sort: '-lastPostedAt',
+      page: { limit: 20 },
+      include: 'user,lastPostedUser,tags',
+    })
       .then(
         (discussions) =>
           (this.latestDiscussions = discussions
@@ -103,8 +101,8 @@ export default class HomePage<CustomAttrs extends IHomePageAttrs = IHomePageAttr
    * count (minimum 2) so the two-column grid never has a gap.
    */
   async loadBlog(): Promise<Discussion[]> {
-    const query = (filter: Record<string, string>, limit: number) =>
-      app.store.find<Discussion[]>('discussions', {
+    const query = (key: string, filter: Record<string, string>, limit: number) =>
+      findHomeSection<Discussion>(key, {
         filter: { tag: BLOG_TAG_SLUG, ...filter },
         sort: '-createdAt',
         page: { limit },
@@ -112,9 +110,9 @@ export default class HomePage<CustomAttrs extends IHomePageAttrs = IHomePageAttr
       });
 
     // The sticky filter only exists while flarum/sticky is enabled.
-    if (!('flarum-sticky' in flarum.extensions)) return query({}, 2);
+    if (!('flarum-sticky' in flarum.extensions)) return query('blog', {}, 2);
 
-    const [pinned, unpinned] = await Promise.all([query({ sticky: '1' }, 50), query({ '-sticky': '1' }, 2)]);
+    const [pinned, unpinned] = await Promise.all([query('blogPinned', { sticky: '1' }, 50), query('blogUnpinned', { '-sticky': '1' }, 2)]);
     const fill = pinned.length === 0 ? 2 : pinned.length % 2;
 
     return [...pinned, ...unpinned.slice(0, fill)];
@@ -187,7 +185,6 @@ export default class HomePage<CustomAttrs extends IHomePageAttrs = IHomePageAttr
     );
     items.add('docs', this.docsSection(), 70);
     items.add('contribute', this.contributeSection(), 60);
-    if (TeamSection.isAvailable()) items.add('team', <TeamSection />, 50);
 
     return items;
   }

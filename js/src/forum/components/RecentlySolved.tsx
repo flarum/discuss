@@ -12,6 +12,8 @@ import type Discussion from 'flarum/common/models/Discussion';
 import type Post from 'flarum/common/models/Post';
 import type Mithril from 'mithril';
 
+import findHomeSection from '../utils/homeFeed';
+
 export const SUPPORT_TAG_SLUG = 'support';
 
 export interface IRecentlySolvedAttrs extends ComponentAttrs {}
@@ -31,14 +33,13 @@ export default class RecentlySolved extends Component<IRecentlySolvedAttrs> {
   oninit(vnode: Mithril.Vnode<IRecentlySolvedAttrs, this>) {
     super.oninit(vnode);
 
-    app.store
-      .find<Discussion[]>('discussions', {
-        filter: { tag: SUPPORT_TAG_SLUG, 'solved-discussions': 'true' },
-        // Registered by this extension's extend.php when best-answer is enabled.
-        sort: '-bestAnswerSetAt',
-        page: { limit: 5 },
-        include: 'bestAnswerPost.user',
-      })
+    findHomeSection<Discussion>('solved', {
+      filter: { tag: SUPPORT_TAG_SLUG, 'solved-discussions': 'true' },
+      // Registered by this extension's extend.php when best-answer is enabled.
+      sort: '-bestAnswerSetAt',
+      page: { limit: 5 },
+      include: 'bestAnswerPost.user',
+    })
       .then((discussions) => (this.discussions = discussions))
       .catch(() => {})
       .finally(() => {

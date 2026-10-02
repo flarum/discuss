@@ -32,6 +32,9 @@ return [
 
     new Extend\Locales(__DIR__.'/locale'),
 
+    (new Extend\View())
+        ->namespace('flarum-discuss', __DIR__.'/resources/views'),
+
     (new Extend\Settings())
         ->default('flarum-discuss.donation-link.github', 'https://github.com/sponsors/flarum')
         ->default('flarum-discuss.donation-link.opencollective', 'https://opencollective.com/flarum#category-CONTRIBUTE')
@@ -42,7 +45,6 @@ return [
         ->serializeToForum('openCollectiveUrl', 'flarum-discuss.donation-link.opencollective')
         ->serializeToForum('monthlySupportersGroupId', 'flarum-discuss.supporters.monthly-group')
         ->serializeToForum('oneTimeSupportersGroupId', 'flarum-discuss.supporters.one-time-group')
-        ->serializeToForum('teamGroupId', 'flarum-discuss.home.team-group')
         ->serializeToForum('githubStars', 'flarum-discuss.supporters.github-stars', 'intval')
         ->serializeToForum('frameworkCommits', 'flarum-discuss.supporters.framework-commits', 'intval')
         ->serializeToForum('frameworkContributors', 'flarum-discuss.supporters.framework-contributors', 'intval'),
