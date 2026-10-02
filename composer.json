@@ -38,7 +38,8 @@
                 "fof/gamification",
                 "fof/best-answer",
                 "fof/online-users-widget",
-                "flarum/sticky"
+                "flarum/sticky",
+                "fof/seo"
             ]
         },
         "flarum-cli": {
@@ -95,6 +96,7 @@
         "fof/gamification": "2.x-dev",
         "fof/best-answer": "*",
         "fof/online-users-widget": "*",
-        "flarum/sticky": "*"
+        "flarum/sticky": "*",
+        "fof/seo": "*"
     }
 }

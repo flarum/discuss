@@ -57,6 +57,10 @@ return [
         ->fields(Api\AddForumResourceFields::class),
 
     (new Extend\Conditional())
+        ->whenExtensionEnabled('fof-seo', fn () => [
+            (new \FoF\Seo\Extend\SEO())
+                ->addExtender('discuss_home', Seo\HomePage::class),
+        ])
         ->whenExtensionEnabled('fof-best-answer', fn () => [
             // Lets the homepage list support questions by when they were solved, not last activity.
             (new Extend\ApiResource(DiscussionResource::class))

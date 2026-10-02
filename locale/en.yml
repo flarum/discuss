@@ -14,8 +14,7 @@ flarum-discuss:
   forum:
     home:
       title: Home
-      meta_title: Flarum Community
-      description: >
+      description: >-
         The official community for Flarum, the free and open-source forum software. Discover new extensions,
         get help, and meet the people building Flarum.
 

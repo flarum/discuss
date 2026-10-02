@@ -26,7 +26,7 @@ class Home
 
     public function __invoke(Document $document, Request $request): Document
     {
-        $document->title = $this->translator->trans('flarum-discuss.forum.home.meta_title');
+        // No page title: the homepage is titled with the bare forum name.
         $document->meta['description'] = $this->translator->trans('flarum-discuss.forum.home.description');
 
         // When set as the forum's home page, '/' and '/home' serve the same content.

@@ -48,7 +48,8 @@ export default class HomePage<CustomAttrs extends IHomePageAttrs = IHomePageAttr
   oncreate(vnode: Mithril.VnodeDOM<CustomAttrs, this>) {
     super.oncreate(vnode);
 
-    app.setTitle(extractText(app.translator.trans('flarum-discuss.forum.home.meta_title')));
+    // Empty, so the homepage is titled with the bare forum name.
+    app.setTitle('');
     app.setTitleCount(0);
   }
 
@@ -76,13 +77,20 @@ export default class HomePage<CustomAttrs extends IHomePageAttrs = IHomePageAttr
       });
 
     app.store
+      // No filters, so the query is the same as /all's: tags only hides its
+      // hidden tags (and other extensions only apply their /all rules) on an
+      // unfiltered list. Extensions are dropped here instead, from a buffer.
       .find<Discussion[]>('discussions', {
-        filter: { '-tag': EXTENSIONS_TAG_SLUG },
         sort: '-lastPostedAt',
-        page: { limit: 8 },
+        page: { limit: 20 },
         include: 'user,lastPostedUser,tags',
       })
-      .then((discussions) => (this.latestDiscussions = discussions))
+      .then(
+        (discussions) =>
+          (this.latestDiscussions = discussions
+            .filter((discussion) => !(discussion.tags() || []).some((tag) => tag && tag.slug() === EXTENSIONS_TAG_SLUG))
+            .slice(0, 8))
+      )
       .catch(() => {})
       .finally(() => {
         this.loadingLatest = false;
