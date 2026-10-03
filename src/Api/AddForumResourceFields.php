@@ -82,15 +82,15 @@ class AddForumResourceFields
             // so an open tab flips at launch, unless `fixed` (an admin override) pins it.
             Schema\Arr::make('discussLaunch')
                 ->get(fn (mixed $model, Context $context) => [
-                    'phase'    => $this->launchPhase->current($context->request),
-                    'fixed'    => $this->launchPhase->isFixed($context->request),
+                    'phase' => $this->launchPhase->current($context->request),
+                    'fixed' => $this->launchPhase->isFixed($context->request),
                     'launchAt' => LaunchPhase::LAUNCH_AT,
-                    'endsAt'   => LaunchPhase::ENDS_AT,
-                    'links'    => [
-                        'event'        => $this->settings->get('flarum-discuss.launch.event-url') ?: null,
+                    'endsAt' => LaunchPhase::ENDS_AT,
+                    'links' => [
+                        'event' => $this->settings->get('flarum-discuss.launch.event-url') ?: null,
                         'announcement' => $this->settings->get('flarum-discuss.launch.announcement-url') ?: null,
-                        'infographic'  => $this->settings->get('flarum-discuss.launch.infographic-url') ?: null,
-                        'wallpapers'   => $this->settings->get('flarum-discuss.launch.wallpapers-url') ?: null,
+                        'infographic' => $this->settings->get('flarum-discuss.launch.infographic-url') ?: null,
+                        'wallpapers' => $this->settings->get('flarum-discuss.launch.wallpapers-url') ?: null,
                     ],
                 ]),
         ];
