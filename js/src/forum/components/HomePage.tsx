@@ -14,6 +14,7 @@ import BaseInfoPage, { IBaseInfoPageAttrs } from './BaseInfoPage';
 import HomeDiscussionCard from './HomeDiscussionCard';
 import BlogFeatureCard from './BlogFeatureCard';
 import CommunityPulse from './CommunityPulse';
+import LaunchBanner from './LaunchBanner';
 import TopContributors from './TopContributors';
 import findHomeSection from '../utils/homeFeed';
 import RecentlySolved from './RecentlySolved';
@@ -166,6 +167,7 @@ export default class HomePage<CustomAttrs extends IHomePageAttrs = IHomePageAttr
     // Rail widgets each depend on an optional extension, so the rail may be empty.
     const rail = this.railItems();
 
+    items.add('launch', <LaunchBanner />, 110);
     items.add('pulse', <CommunityPulse />, 100);
     items.add(
       'grid',

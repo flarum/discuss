@@ -1,4 +1,113 @@
 // =====================================================
+// Brand tokens (2026 Flarum design system)
+// Scoped to the custom pages (Home, Supporters, Contribute); the rest of the
+// forum keeps Flarum's default look.
+// =====================================================
+
+// The app-icon background gradient, the same in both themes.
+@discuss-brand-gradient: linear-gradient(to bottom, #ea3636, #f37440);
+@discuss-assets: '/assets/extensions/flarum-discuss';
+
+// Subset to Latin and, for Archivo, to the 700–900 weight / 100–112% width range used here.
+@font-face {
+  font-family: 'Discuss Archivo';
+  src: url('@{discuss-assets}/fonts/archivo-latin-var.woff2') format('woff2');
+  font-weight: 700 900;
+  font-stretch: 100% 112%;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Discuss Plex Mono';
+  src: url('@{discuss-assets}/fonts/ibm-plex-mono-latin-400.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}
+
+.discuss-tokens() {
+  --discuss-paper: #fbf7f4;
+  --discuss-tile: #f4eeea;
+  --discuss-card: #ffffff;
+  --discuss-ink: #231c19;
+  --discuss-body: #4a3c35;
+  --discuss-muted: #8a7a70;
+  --discuss-rule: #e3d3c8;
+  // Small accent text: #e7562e is only ~3.8:1 on paper, so it's kept for large numbers and icons.
+  --discuss-kicker: #b4532e;
+  --discuss-accent: #e7562e;
+  --discuss-grid-minor: #efe4dc;
+  --discuss-grid-major: #e6d6cb;
+
+  [data-theme^='dark'] & {
+    --discuss-paper: #17110f;
+    --discuss-tile: #211915;
+    --discuss-card: #1b1412;
+    --discuss-ink: #f4eeea;
+    --discuss-body: #d9cbc2;
+    --discuss-muted: #a8978c;
+    --discuss-rule: #3a2d27;
+    --discuss-kicker: #f08a5d;
+    --discuss-accent: #f0703f;
+    --discuss-grid-minor: #1e1714;
+    --discuss-grid-major: #2c221e;
+  }
+}
+
+// On the page root as well as the body class, so the first frame (before Page
+// sets the body class) is already themed.
+.InfoPage,
+body.HomePage,
+body.SupportersPage,
+body.ContributePage {
+  .discuss-tokens();
+}
+
+body.HomePage,
+body.SupportersPage,
+body.ContributePage {
+  background: var(--discuss-paper);
+}
+
+// Display headings and stat numbers: Archivo, heavy, slightly expanded.
+.discuss-display(@weight: 850) {
+  font-family: 'Discuss Archivo', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-weight: @weight;
+  font-stretch: 106%;
+  letter-spacing: -0.01em;
+}
+
+// Kickers, chips and captions: small uppercase mono.
+.discuss-mono() {
+  font-family: 'Discuss Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+// Outlined mono chip (2px accent, r4).
+.discuss-chip() {
+  .discuss-mono();
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border: 2px solid var(--discuss-accent);
+  border-radius: 4px;
+  color: var(--discuss-kicker);
+  font-size: 11px;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+// Blueprint grid: 16px minor, 80px major.
+.discuss-blueprint() {
+  background-color: var(--discuss-paper);
+  background-image: linear-gradient(var(--discuss-grid-major) 1px, transparent 1px), linear-gradient(90deg, var(--discuss-grid-major) 1px, transparent 1px),
+    linear-gradient(var(--discuss-grid-minor) 1px, transparent 1px), linear-gradient(90deg, var(--discuss-grid-minor) 1px, transparent 1px);
+  background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px;
+}
+
+// =====================================================
 // Base Info Page Styles (Shared across all info pages)
 // =====================================================
 
@@ -6,62 +115,73 @@
 // Hero Section - Shared
 // -----------------------------------------------------
 .InfoPage-hero {
-  position: relative;
-  background: url('/assets/extensions/flarum-discuss/supporters-hero.svg');
-  background-size: cover;
-  background-position: center;
-  color: #fff;
-  padding: 50px 0;
-  margin-bottom: 0;
-  overflow: hidden;
+  // "A new page": the white Flarum bubble blown up past the right and bottom
+  // edges. Fixed sizes keep the fold in view; the text column stays clear of it.
+  --discuss-bubble-width: 290px;
 
-  &::before {
+  position: relative;
+  overflow: hidden;
+  min-height: 300px;
+  box-sizing: border-box;
+  background: @discuss-brand-gradient;
+  color: #fff;
+  padding: 56px 0;
+  margin-bottom: 0;
+
+  &::after {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.2);
-    z-index: 1;
+    top: 28px;
+    right: calc(var(--discuss-bubble-width) * -0.18);
+    width: var(--discuss-bubble-width);
+    aspect-ratio: 61.78 / 72.63;
+    background: url('@{discuss-assets}/hero-bubble.svg') no-repeat 0 0 / contain;
+    pointer-events: none;
   }
 
   .container {
     position: relative;
-    z-index: 2;
+    z-index: 1;
   }
 
   @media (max-width: 768px) {
-    padding: 40px 0;
+    --discuss-bubble-width: 120px;
+
+    min-height: 0;
+    padding: 36px 0;
+
+    &::after {
+      top: 16px;
+    }
   }
 }
 
 .InfoPage-heroContent {
-  text-align: center;
-  max-width: 800px;
-  margin: 0 auto;
+  text-align: left;
+  max-width: calc(100% - var(--discuss-bubble-width) * 0.82 - 24px);
+  margin: 0;
 }
 
 .InfoPage-heroTitle {
-  font-size: 64px !important;
-  font-weight: 800 !important;
-  margin: 0 0 20px !important;
+  // !important: core's `.Hero h1` (more specific) resets the size and weight.
+  .discuss-display(900) !important;
+  font-size: 56px !important;
+  margin: 0 0 16px !important;
   color: #fff !important;
-  text-shadow: 0 3px 8px rgba(0, 0, 0, 0.3) !important;
-  line-height: 1.1 !important;
-  letter-spacing: -0.5px !important;
+  line-height: 1.05 !important;
 
   @media (max-width: 768px) {
-    font-size: 42px !important;
+    font-size: 34px !important;
   }
 }
 
 .InfoPage-heroSubtitle {
   font-size: 20px;
-  font-weight: 300;
-  margin: 0 0 30px;
+  // Light weights wash out on the lighter end of the gradient without the old dark overlay.
+  font-weight: 500;
+  margin: 0 0 28px;
+  max-width: 640px;
   color: #fff;
-  opacity: 0.95;
   line-height: 1.6;
 
   @media (max-width: 768px) {
@@ -74,7 +194,7 @@
   font-size: 18px;
   padding: 12px 32px;
   background: #fff;
-  color: var(--secondary-color);
+  color: #b4532e;
   border: 2px solid #fff;
   border-radius: 8px;
   font-weight: 600;
@@ -85,7 +205,7 @@
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
     background: rgba(255, 255, 255, 0.95);
-    color: var(--secondary-color);
+    color: #b4532e;
   }
 
   .icon {
@@ -102,7 +222,7 @@
 // Shared Page Structure
 // -----------------------------------------------------
 .InfoPage {
-  background: var(--body-bg);
+  background: var(--discuss-paper);
 
   .Page-main {
     padding: 0;
@@ -123,10 +243,10 @@
 }
 
 .InfoPage-sectionTitle {
+  .discuss-display();
   font-size: 42px;
-  font-weight: 700;
   margin: 0 0 20px;
-  color: var(--heading-color);
+  color: var(--discuss-ink);
   line-height: 1.2;
 
   @media (max-width: 768px) {
@@ -137,7 +257,7 @@
 .InfoPage-sectionLead {
   font-size: 20px;
   line-height: 1.6;
-  color: var(--muted-color);
+  color: var(--discuss-body);
   margin: 0;
 
   @media (max-width: 768px) {
@@ -161,9 +281,9 @@
   // Introduction Section
   // -----------------------------------------------------
   &-intro {
-    background: var(--body-bg);
+    background: var(--discuss-paper);
     padding: 80px 0;
-    border-bottom: 1px solid var(--control-bg);
+    border-bottom: 1px solid var(--discuss-rule);
   }
 
   &-introContent {
@@ -203,7 +323,7 @@
     p {
       font-size: 18px;
       line-height: 1.8;
-      color: var(--muted-color);
+      color: var(--discuss-body);
       margin: 0 0 24px;
 
       @media (max-width: 768px) {
@@ -232,7 +352,8 @@
   text-align: center;
   padding: 30px 20px;
   border-radius: 12px;
-  background: var(--control-bg);
+  background: var(--discuss-card);
+  border: 1px solid var(--discuss-rule);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 
   &:hover {
@@ -248,22 +369,22 @@
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    background: linear-gradient(135deg, #E7672E 0%, #7B4BFF 100%);
+    background: @discuss-brand-gradient;
     color: white;
     font-size: 28px;
   }
 
   &-title {
+    .discuss-display(800);
     font-size: 20px;
-    font-weight: 600;
     margin: 0 0 12px;
-    color: var(--heading-color);
+    color: var(--discuss-ink);
   }
 
   &-description {
     font-size: 15px;
     line-height: 1.6;
-    color: var(--muted-color);
+    color: var(--discuss-body);
     margin: 0;
   }
 }
@@ -283,15 +404,15 @@
   // -----------------------------------------------------
   &-section {
     padding: 60px 0;
-    background: var(--body-bg);
+    background: var(--discuss-paper);
 
     &:nth-child(even) {
-      background: #fff;
+      background: var(--discuss-tile);
     }
   }
 
   &-monthlySection {
-    background: linear-gradient(to bottom, var(--body-bg), color-mix(in srgb, var(--body-bg) 97%, var(--secondary-color)));
+    background: linear-gradient(to bottom, var(--discuss-paper), var(--discuss-tile));
 
     // Monthly supporters: 1 per row on mobile
     .SupporterCards--grid {
@@ -314,10 +435,10 @@
   }
 
   &-sectionTitle {
+    .discuss-display();
     font-size: 32px;
-    font-weight: 600;
     margin: 0 0 15px;
-    color: var(--heading-color);
+    color: var(--discuss-ink);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -325,7 +446,7 @@
 
     i {
       font-size: 28px;
-      color: var(--primary-color);
+      color: var(--discuss-accent);
     }
 
     @media (max-width: 768px) {
@@ -336,7 +457,7 @@
   &-sectionDescription {
     font-size: 16px;
     line-height: 1.6;
-    color: var(--muted-color);
+    color: var(--discuss-body);
     margin: 0;
     max-width: 700px;
     margin: 0 auto;
@@ -345,7 +466,7 @@
   &-emptyState {
     text-align: center;
     padding: 60px 20px;
-    color: var(--muted-color);
+    color: var(--discuss-muted);
 
     i {
       font-size: 48px;
@@ -358,7 +479,7 @@
       font-size: 16px;
       line-height: 1.6;
       margin: 0;
-      color: var(--muted-color);
+      color: var(--discuss-muted);
     }
   }
 }
@@ -367,10 +488,10 @@
 // Impact Stats Section
 // -----------------------------------------------------
 .ImpactStats {
-  background: var(--body-bg);
+  background: var(--discuss-paper);
   padding: 50px 0;
-  border-top: 1px solid var(--control-bg);
-  border-bottom: 1px solid var(--control-bg);
+  border-top: 1px solid var(--discuss-rule);
+  border-bottom: 1px solid var(--discuss-rule);
 
   .container {
     max-width: 1200px;
@@ -415,11 +536,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, var(--secondary-color), color-mix(in srgb, var(--secondary-color) 80%, black));
+    background: @discuss-brand-gradient;
     border-radius: 12px;
     color: #fff;
     font-size: 24px;
-    box-shadow: 0 4px 12px color-mix(in srgb, var(--secondary-color) 20%, transparent);
 
     @media (max-width: 768px) {
       width: 48px;
@@ -434,27 +554,22 @@
   }
 
   &-value {
-    font-size: 32px;
-    font-weight: 700;
-    color: var(--heading-color);
-    line-height: 1.2;
+    .discuss-display(900);
+    font-size: 36px;
+    color: var(--discuss-accent);
+    line-height: 1.1;
     margin-bottom: 4px;
+    font-variant-numeric: tabular-nums;
 
     @media (max-width: 768px) {
-      font-size: 28px;
+      font-size: 30px;
     }
   }
 
   &-label {
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--muted-color);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-
-    @media (max-width: 768px) {
-      font-size: 13px;
-    }
+    .discuss-mono();
+    font-size: 12px;
+    color: var(--discuss-muted);
   }
 }
 
@@ -535,16 +650,16 @@
   }
 
   &::-webkit-scrollbar-track {
-    background: color-mix(in srgb, var(--control-bg) 50%, transparent);
+    background: var(--discuss-tile);
     border-radius: 4px;
   }
 
   &::-webkit-scrollbar-thumb {
-    background: color-mix(in srgb, var(--secondary-color) 40%, transparent);
+    background: color-mix(in srgb, var(--discuss-accent) 40%, transparent);
     border-radius: 4px;
 
     &:hover {
-      background: color-mix(in srgb, var(--secondary-color) 60%, transparent);
+      background: color-mix(in srgb, var(--discuss-accent) 60%, transparent);
     }
   }
 
@@ -572,14 +687,14 @@
 
     .SupporterCard {
       width: 240px;
-      box-shadow: 0 4px 12px color-mix(in srgb, var(--secondary-color) 15%, transparent);
+      box-shadow: 0 4px 12px color-mix(in srgb, var(--discuss-accent) 15%, transparent);
       border: 2px solid transparent;
-      background: linear-gradient(135deg, var(--body-bg), color-mix(in srgb, var(--secondary-color) 5%, var(--body-bg)));
+      background: linear-gradient(135deg, var(--discuss-card), var(--discuss-tile));
 
       &:hover {
         transform: translateY(-4px);
-        box-shadow: 0 8px 24px color-mix(in srgb, var(--secondary-color) 30%, transparent);
-        border-color: var(--secondary-color);
+        box-shadow: 0 8px 24px color-mix(in srgb, var(--discuss-accent) 30%, transparent);
+        border-color: var(--discuss-accent);
       }
     }
 
@@ -611,8 +726,8 @@
 // Supporter Card
 // -----------------------------------------------------
 .SupporterCard {
-  background: #fff;
-  border: 1px solid var(--control-bg);
+  background: var(--discuss-card);
+  border: 1px solid var(--discuss-rule);
   border-radius: 12px;
   overflow: hidden;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -620,7 +735,7 @@
   &:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-    border-color: var(--link-color);
+    border-color: var(--discuss-accent);
   }
 
   &-link {
@@ -644,7 +759,7 @@
       width: 80px;
       height: 80px;
       border-radius: 50%;
-      border: 3px solid #fff;
+      border: 3px solid var(--discuss-card);
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
 
@@ -662,7 +777,7 @@
   &-username {
     font-size: 16px;
     font-weight: 600;
-    color: var(--heading-color);
+    color: var(--discuss-ink);
     margin: 0;
     word-break: break-word;
     line-height: 1.4;
@@ -671,7 +786,7 @@
   &-bio {
     margin-top: 12px;
     font-size: 14px;
-    color: var(--muted-color);
+    color: var(--discuss-body);
     line-height: 1.6;
     text-align: center;
     max-width: 100%;
@@ -709,7 +824,7 @@
 // Donation Links Section
 // -----------------------------------------------------
 .DonationLinks {
-  background: linear-gradient(135deg, color-mix(in srgb, var(--secondary-color) 80%, white), var(--secondary-color));
+  background: @discuss-brand-gradient;
   padding: 80px 0;
   color: #fff;
   position: relative;
@@ -734,11 +849,10 @@
   }
 
   &-heading {
-    font-size: 36px;
-    font-weight: 700;
+    .discuss-display(900);
+    font-size: 40px;
     text-align: center;
     margin: 0 0 16px;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 
     @media (max-width: 768px) {
       font-size: 28px;
@@ -789,17 +903,17 @@
   }
 
   &-requirement {
-    background: var(--body-bg);
+    background: var(--discuss-card);
     border-radius: 16px;
     padding: 32px;
     text-align: center;
-    border: 2px solid var(--control-bg);
+    border: 1px solid var(--discuss-rule);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
     &:hover {
       transform: translateY(-4px);
       box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
-      border-color: var(--primary-color);
+      border-color: var(--discuss-accent);
     }
   }
 
@@ -807,7 +921,7 @@
     width: 80px;
     height: 80px;
     margin: 0 auto 24px;
-    background: var(--primary-color);
+    background: @discuss-brand-gradient;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -820,23 +934,23 @@
   }
 
   &-requirementTitle {
+    .discuss-display(800);
     font-size: 20px;
-    font-weight: 600;
-    color: var(--heading-color);
+    color: var(--discuss-ink);
     margin: 0 0 16px;
     line-height: 1.4;
   }
 
   &-requirementText {
     font-size: 15px;
-    color: var(--muted-color);
+    color: var(--discuss-body);
     line-height: 1.6;
     margin: 0;
   }
 }
 
 .SupportersPage-howToAppear {
-  background: color-mix(in srgb, var(--body-bg) 97%, var(--primary-color));
+  background: var(--discuss-tile);
 }
 
 // -----------------------------------------------------
@@ -847,7 +961,7 @@
   align-items: center;
   gap: 24px;
   padding: 28px 32px;
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--discuss-card);
   border-radius: 16px;
   text-decoration: none;
   color: inherit;
@@ -858,8 +972,7 @@
   &:hover {
     transform: translateY(-4px);
     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
-    border-color: rgba(255, 255, 255, 0.3);
-    background: #fff;
+    border-color: var(--discuss-accent);
     text-decoration: none;
   }
 
@@ -875,7 +988,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, color-mix(in srgb, var(--secondary-color) 90%, white), color-mix(in srgb, var(--secondary-color) 100%, black 20%));
+    background: @discuss-brand-gradient;
     border-radius: 12px;
     color: #fff;
     font-size: 32px;
@@ -896,7 +1009,7 @@
     font-size: 20px;
     font-weight: 700;
     margin: 0 0 6px;
-    color: #1a202c;
+    color: var(--discuss-ink);
 
     @media (max-width: 768px) {
       font-size: 18px;
@@ -906,7 +1019,7 @@
   &-subtitle {
     font-size: 15px;
     margin: 0;
-    color: #4a5568;
+    color: var(--discuss-body);
     line-height: 1.5;
 
     @media (max-width: 768px) {
@@ -921,9 +1034,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.2);
+    background: var(--discuss-tile);
     border-radius: 50%;
-    color: #fff;
+    color: var(--discuss-kicker);
     font-size: 18px;
     transition: all 0.3s ease;
 
@@ -935,7 +1048,7 @@
   }
 
   &:hover &-arrow {
-    background: rgba(255, 255, 255, 0.3);
+    background: var(--discuss-accent);
     color: #fff;
     transform: translateX(4px);
   }
@@ -978,7 +1091,7 @@
   }
 
   &-contributionTypes {
-    background: var(--body-bg);
+    background: var(--discuss-paper);
     padding: 80px 0;
 
     .container {
@@ -1003,10 +1116,10 @@
   }
 
   &-fundingUse {
-    background: color-mix(in srgb, var(--body-bg) 98%, var(--primary-color));
+    .discuss-blueprint();
     padding: 80px 0;
-    border-top: 1px solid var(--control-bg);
-    border-bottom: 1px solid var(--control-bg);
+    border-top: 1px solid var(--discuss-rule);
+    border-bottom: 1px solid var(--discuss-rule);
 
     .container {
       max-width: 1200px;
@@ -1035,16 +1148,16 @@
   }
 
   &-item {
-    background: var(--body-bg);
+    background: var(--discuss-card);
     border-radius: 16px;
     padding: 32px;
-    border: 2px solid var(--control-bg);
+    border: 1px solid var(--discuss-rule);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
     &:hover {
       transform: translateY(-4px);
       box-shadow: 0 12px 24px color-mix(in srgb, var(--shadow-color) 10%, transparent);
-      border-color: var(--primary-color);
+      border-color: var(--discuss-accent);
     }
 
     @media (max-width: 768px) {
@@ -1056,12 +1169,11 @@
     width: 64px;
     height: 64px;
     margin-bottom: 20px;
-    background: linear-gradient(135deg, var(--primary-color), color-mix(in srgb, var(--primary-color) 80%, black));
+    background: @discuss-brand-gradient;
     border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 12px color-mix(in srgb, var(--primary-color) 30%, transparent);
 
     .icon {
       font-size: 28px;
@@ -1079,11 +1191,11 @@
   }
 
   &-title {
+    .discuss-display(800);
     font-size: 20px;
-    font-weight: 600;
-    color: var(--heading-color);
+    color: var(--discuss-ink);
     margin: 0 0 12px;
-    line-height: 1.4;
+    line-height: 1.3;
 
     @media (max-width: 768px) {
       font-size: 18px;
@@ -1092,56 +1204,12 @@
 
   &-description {
     font-size: 15px;
-    color: var(--muted-color);
+    color: var(--discuss-body);
     line-height: 1.6;
     margin: 0;
 
     @media (max-width: 768px) {
       font-size: 14px;
-    }
-  }
-}
-
-// -----------------------------------------------------
-// Dark Mode Support
-// -----------------------------------------------------
-@media (prefers-color-scheme: dark) {
-  .SupportersPage {
-    &-intro {
-      background: var(--body-bg);
-    }
-
-    &-section {
-      &:nth-child(even) {
-        background: rgba(255, 255, 255, 0.03);
-      }
-    }
-  }
-
-  .SupporterCard {
-    background: var(--control-bg);
-    border-color: rgba(255, 255, 255, 0.1);
-
-    &:hover {
-      background: rgba(255, 255, 255, 0.05);
-    }
-  }
-
-  .SupporterCards--featured .SupporterCard,
-  .SupporterCard--featured {
-    box-shadow: 0 4px 12px color-mix(in srgb, var(--secondary-color) 15%, transparent);
-    border: 2px solid transparent;
-    background: linear-gradient(135deg, var(--body-bg), color-mix(in srgb, var(--secondary-color) 5%, var(--body-bg)));
-
-    &:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 24px color-mix(in srgb, var(--secondary-color) 30%, transparent);
-      border-color: var(--secondary-color);
-    }
-
-    .SupporterCard-avatar .Avatar {
-      width: 100px;
-      height: 100px;
     }
   }
 }
@@ -1232,32 +1300,34 @@
   }
 
   &-sectionTitle {
-    font-size: 22px;
-    font-weight: 700;
+    .discuss-display();
+    font-size: 24px;
     margin: 0;
-    color: var(--heading-color);
+    color: var(--discuss-ink);
     display: flex;
     align-items: center;
     gap: 10px;
 
     .icon {
-      color: var(--primary-color);
+      color: var(--discuss-accent);
       font-size: 18px;
     }
   }
 
   &-viewAll {
-    font-weight: 600;
+    .discuss-mono();
+    font-size: 12px;
+    color: var(--discuss-kicker);
     white-space: nowrap;
   }
 
   &-sectionDescription {
-    color: var(--muted-color);
+    color: var(--discuss-body);
     margin: 0 0 16px;
   }
 
   &-empty {
-    color: var(--muted-color);
+    color: var(--discuss-muted);
     text-align: center;
     padding: 30px 0;
   }
@@ -1281,34 +1351,32 @@
   margin: 24px 0 32px;
 
   &-stat {
-    background: var(--body-bg);
+    background: var(--discuss-card);
     border-radius: 12px;
     padding: 16px 14px;
     text-align: center;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-    border: 1px solid var(--control-bg);
+    border: 1px solid var(--discuss-rule);
   }
 
   &-icon {
-    color: var(--primary-color);
+    color: var(--discuss-accent);
     font-size: 16px;
     margin-bottom: 6px;
   }
 
   &-value {
-    font-size: 26px;
-    font-weight: 800;
-    color: var(--heading-color);
-    line-height: 1.2;
+    .discuss-display(900);
+    font-size: 30px;
+    color: var(--discuss-accent);
+    line-height: 1.1;
     font-variant-numeric: tabular-nums;
   }
 
   &-label {
-    font-size: 12px;
-    color: var(--muted-color);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    margin-top: 2px;
+    .discuss-mono();
+    font-size: 11px;
+    color: var(--discuss-muted);
+    margin-top: 4px;
   }
 
   &-stat--live &-icon {
@@ -1345,8 +1413,9 @@
   align-items: flex-start;
   padding: 10px 14px;
   border-radius: 12px;
-  background: var(--control-bg);
-  color: var(--text-color);
+  background: var(--discuss-card);
+  border: 1px solid var(--discuss-rule);
+  color: var(--discuss-body);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 
   &:hover,
@@ -1370,7 +1439,7 @@
     font-size: 15px;
     font-weight: 600;
     margin: 0 0 4px;
-    color: var(--heading-color);
+    color: var(--discuss-ink);
     overflow-wrap: anywhere;
   }
 
@@ -1380,7 +1449,7 @@
     align-items: center;
     gap: 6px 12px;
     font-size: 13px;
-    color: var(--muted-color);
+    color: var(--discuss-muted);
   }
 
   &-replies .icon {
@@ -1388,7 +1457,7 @@
   }
 
   &--extension {
-    border-left: 4px solid var(--primary-color);
+    border-left: 4px solid var(--discuss-accent);
   }
 }
 
@@ -1402,9 +1471,10 @@
   box-sizing: border-box;
   padding: 24px;
   border-radius: 14px;
-  color: var(--text-color);
-  background: linear-gradient(135deg, color-mix(in srgb, var(--primary-color) 12%, var(--body-bg)) 0%, var(--control-bg) 70%);
-  border: 1px solid color-mix(in srgb, var(--primary-color) 20%, transparent);
+  color: var(--discuss-body);
+  background: var(--discuss-card);
+  border: 1px solid var(--discuss-rule);
+  border-top: 4px solid var(--discuss-accent);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 
   &:hover,
@@ -1415,33 +1485,23 @@
   }
 
   &-pinned {
+    .discuss-chip();
     align-self: flex-start;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    margin-bottom: 10px;
-    padding: 3px 10px;
-    border-radius: 999px;
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--primary-color);
-    background: color-mix(in srgb, var(--primary-color) 14%, transparent);
+    margin-bottom: 12px;
   }
 
   &-title {
-    font-size: 21px;
-    font-weight: 700;
-    line-height: 1.3;
+    .discuss-display(800);
+    font-size: 22px;
+    line-height: 1.2;
     margin: 0 0 10px;
-    color: var(--heading-color);
+    color: var(--discuss-ink);
     overflow-wrap: anywhere;
   }
 
   &-excerpt {
     flex: 1;
-    color: var(--muted-color);
+    color: var(--discuss-body);
     line-height: 1.6;
     margin: 0 0 18px;
   }
@@ -1468,18 +1528,18 @@
 
   &-author {
     font-weight: 600;
-    color: var(--heading-color);
+    color: var(--discuss-ink);
   }
 
   &-date {
-    color: var(--muted-color);
+    color: var(--discuss-muted);
   }
 
   &-readMore {
+    .discuss-mono();
     margin-left: auto;
-    font-weight: 600;
-    font-size: 14px;
-    color: var(--primary-color);
+    font-size: 12px;
+    color: var(--discuss-kicker);
     white-space: nowrap;
 
     .icon {
@@ -1497,7 +1557,8 @@
 // Rail widgets
 // -----------------------------------------------------
 .HomeWidget {
-  background: var(--control-bg);
+  background: var(--discuss-card);
+  border: 1px solid var(--discuss-rule);
   border-radius: 12px;
   padding: 18px;
 
@@ -1509,34 +1570,35 @@
   }
 
   &-title {
-    font-size: 17px;
-    font-weight: 700;
+    .discuss-display(800);
+    font-size: 18px;
     margin: 0;
-    color: var(--heading-color);
+    color: var(--discuss-ink);
     display: flex;
     align-items: center;
     gap: 8px;
 
     .icon {
-      color: var(--primary-color);
+      color: var(--discuss-accent);
     }
   }
 
   &-more {
-    font-size: 13px;
-    font-weight: 600;
+    .discuss-mono();
+    font-size: 11px;
+    color: var(--discuss-kicker);
     white-space: nowrap;
   }
 
   &-description {
     font-size: 13px;
-    color: var(--muted-color);
+    color: var(--discuss-muted);
     margin: 4px 0 12px;
   }
 
   &-empty {
     font-size: 14px;
-    color: var(--muted-color);
+    color: var(--discuss-muted);
     margin: 0;
   }
 }
@@ -1566,8 +1628,8 @@
     justify-content: center;
     font-size: 13px;
     font-weight: 700;
-    color: var(--muted-color);
-    background: var(--body-bg);
+    color: var(--discuss-muted);
+    background: var(--discuss-tile);
   }
 
   &-entry--1 &-position {
@@ -1589,7 +1651,7 @@
     gap: 8px;
     min-width: 0;
     flex: 1;
-    color: var(--text-color);
+    color: var(--discuss-ink);
 
     .Avatar {
       --size: 28px;
@@ -1605,8 +1667,8 @@
   }
 
   &-score {
-    font-weight: 700;
-    color: var(--heading-color);
+    .discuss-display(900);
+    color: var(--discuss-accent);
     font-variant-numeric: tabular-nums;
   }
 }
@@ -1627,12 +1689,12 @@
     padding: 8px;
     margin: 0 -8px;
     border-radius: 8px;
-    color: var(--text-color);
+    color: var(--discuss-body);
 
     &:hover,
     &:focus-visible {
       text-decoration: none;
-      background: var(--body-bg);
+      background: var(--discuss-tile);
     }
   }
 
@@ -1650,13 +1712,13 @@
   &-title {
     font-weight: 600;
     font-size: 14px;
-    color: var(--heading-color);
+    color: var(--discuss-ink);
     overflow-wrap: anywhere;
   }
 
   &-meta {
     font-size: 12px;
-    color: var(--muted-color);
+    color: var(--discuss-muted);
   }
 }
 
@@ -1678,25 +1740,16 @@
       border-radius: 2px;
     }
 
-    &::before {
-      background: linear-gradient(to right, transparent, color-mix(in srgb, var(--primary-color) 45%, transparent));
-    }
-
+    &::before,
     &::after {
-      background: linear-gradient(to left, transparent, color-mix(in srgb, var(--primary-color) 45%, transparent));
+      background: var(--discuss-rule);
     }
   }
 
   &-dividerLabel {
-    font-size: 13px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--primary-color);
-    padding: 6px 16px;
-    border: 2px solid color-mix(in srgb, var(--primary-color) 45%, transparent);
-    border-radius: 999px;
-    white-space: nowrap;
+    .discuss-chip();
+    font-size: 12px;
+    padding: 6px 14px;
   }
 
   &-band {
@@ -1710,22 +1763,22 @@
   }
 
   &-bandTitle {
-    font-size: 28px;
-    font-weight: 700;
+    .discuss-display();
+    font-size: 32px;
     margin: 0 0 8px;
-    color: var(--heading-color);
+    color: var(--discuss-ink);
     display: inline-flex;
     align-items: center;
     gap: 12px;
 
     .icon {
-      color: var(--primary-color);
-      font-size: 24px;
+      color: var(--discuss-accent);
+      font-size: 26px;
     }
   }
 
   &-bandLead {
-    color: var(--muted-color);
+    color: var(--discuss-body);
     font-size: 16px;
     line-height: 1.6;
     margin: 0;
@@ -1744,12 +1797,24 @@
     gap: 20px;
   }
 
+  // The "help build" band sits on the blueprint grid, like the design's "Rebuilt from the foundation" cards.
+  &-contribute {
+    .discuss-blueprint();
+    padding: 40px 32px;
+    border: 1px solid var(--discuss-rule);
+    border-radius: 16px;
+
+    @media @phone {
+      padding: 24px 16px;
+    }
+  }
+
   .ImpactStats {
     margin-top: 28px;
     padding: 28px 0;
-    border: none;
+    border: 1px solid var(--discuss-rule);
     border-radius: 14px;
-    background: var(--control-bg);
+    background: var(--discuss-card);
 
     .container {
       width: auto;
@@ -1763,8 +1828,8 @@
   gap: 28px;
   padding: 32px;
   border-radius: 16px;
-  background: linear-gradient(135deg, color-mix(in srgb, var(--primary-color) 14%, var(--body-bg)) 0%, var(--control-bg) 75%);
-  border: 1px solid color-mix(in srgb, var(--primary-color) 22%, transparent);
+  .discuss-blueprint();
+  border: 1px solid var(--discuss-rule);
 
   @media @desktop-hd {
     grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
@@ -1782,20 +1847,20 @@
     justify-content: center;
     font-size: 24px;
     color: #fff;
-    background: linear-gradient(135deg, #e7672e 0%, #7b4bff 100%);
+    background: @discuss-brand-gradient;
     margin-bottom: 16px;
   }
 
   &-title {
-    font-size: 26px;
-    font-weight: 700;
-    line-height: 1.25;
+    .discuss-display(900);
+    font-size: 30px;
+    line-height: 1.1;
     margin: 0 0 10px;
-    color: var(--heading-color);
+    color: var(--discuss-ink);
   }
 
   &-text {
-    color: var(--muted-color);
+    color: var(--discuss-body);
     font-size: 16px;
     line-height: 1.6;
     margin: 0 0 20px;
@@ -1826,22 +1891,22 @@
     box-sizing: border-box;
     padding: 14px 16px;
     border-radius: 12px;
-    background: var(--body-bg);
-    color: var(--text-color);
-    border: 1px solid var(--control-bg);
+    background: var(--discuss-card);
+    color: var(--discuss-body);
+    border: 1px solid var(--discuss-rule);
     transition: transform 0.2s ease, border-color 0.2s ease;
 
     &:hover,
     &:focus-visible {
       text-decoration: none;
       transform: translateY(-2px);
-      border-color: var(--primary-color);
+      border-color: var(--discuss-accent);
     }
   }
 
   &-linkIcon {
     font-size: 18px;
-    color: var(--primary-color);
+    color: var(--discuss-accent);
     width: 22px;
     text-align: center;
     flex-shrink: 0;
@@ -1854,19 +1919,230 @@
     flex: 1;
 
     strong {
-      color: var(--heading-color);
+      color: var(--discuss-ink);
     }
 
     span {
       font-size: 13px;
-      color: var(--muted-color);
+      color: var(--discuss-muted);
     }
   }
 
   &-external {
     font-size: 11px;
-    color: var(--muted-color);
+    color: var(--discuss-muted);
     flex-shrink: 0;
+  }
+}
+
+// -----------------------------------------------------
+// Flarum 2.0 launch banner (time-boxed: remove after 16 Oct 2026)
+// The design's dark "countdown" treatment in both themes, with the teaser's
+// two bubbles: the Flarum you know, and the next one, ghosted.
+// -----------------------------------------------------
+.LaunchBanner {
+  --discuss-bubble-width: 150px;
+
+  position: relative;
+  overflow: hidden;
+  margin: 24px 0 8px;
+  padding: 32px 36px;
+  border: 1px solid #3a2d27; // the panel matches the dark-theme paper, so it needs an edge
+  border-radius: 16px;
+  color: #fff;
+  background-color: #17110f;
+  background-image: linear-gradient(#2c221e 1px, transparent 1px), linear-gradient(90deg, #2c221e 1px, transparent 1px);
+  background-size: 80px 80px;
+
+  &-bubbles {
+    position: absolute;
+    top: 28px;
+    right: 36px;
+    width: calc(var(--discuss-bubble-width) * 2 + 24px);
+    aspect-ratio: 2.3 / 1.17;
+    pointer-events: none;
+
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      width: var(--discuss-bubble-width);
+      aspect-ratio: 61.78 / 72.63;
+      background: url('@{discuss-assets}/hero-bubble.svg') no-repeat 0 0 / contain;
+    }
+
+    &::before {
+      left: 0;
+    }
+
+    &::after {
+      right: 0;
+      opacity: 0.3;
+    }
+  }
+
+  // Launch week: one bubble, the new page.
+  &--launch &-bubbles::after {
+    display: none;
+  }
+
+  &-body {
+    position: relative;
+    max-width: calc(100% - var(--discuss-bubble-width) * 2 - 48px);
+  }
+
+  &-kicker {
+    .discuss-chip();
+    color: #fff;
+  }
+
+  &-title {
+    .discuss-display(900);
+    font-size: 44px;
+    line-height: 1.05;
+    margin: 14px 0 18px;
+    color: #fff;
+  }
+
+  &-tagline,
+  &-when {
+    color: #d9cbc2;
+    font-size: 16px;
+    margin: 0 0 18px;
+  }
+
+  &-when {
+    font-size: 14px;
+    margin-top: 12px;
+  }
+
+  &-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  &-button {
+    color: #fff;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    border-radius: 8px;
+    font-weight: 600;
+
+    &:hover,
+    &:focus-visible {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.1);
+      border-color: #fff;
+    }
+
+    &--primary {
+      background: @discuss-brand-gradient;
+      border-color: transparent;
+
+      &:hover,
+      &:focus-visible {
+        background: @discuss-brand-gradient;
+        border-color: #fff;
+      }
+    }
+  }
+
+  @media (max-width: 992px) {
+    --discuss-bubble-width: 110px;
+
+    &-bubbles::after {
+      display: none;
+    }
+
+    &-bubbles {
+      width: var(--discuss-bubble-width);
+      right: -18px;
+    }
+
+    &-body {
+      max-width: calc(100% - var(--discuss-bubble-width) + 18px - 24px);
+    }
+  }
+
+  @media @phone {
+    --discuss-bubble-width: 72px;
+
+    padding: 22px 18px;
+    margin: 16px 0 4px;
+
+    &-bubbles {
+      top: 18px;
+    }
+
+    // Chips don't wrap by default; here the kicker would run under the bubble.
+    &-kicker {
+      white-space: normal;
+    }
+
+    &-title {
+      font-size: 28px;
+      margin: 10px 0 14px;
+    }
+
+    &-tagline {
+      font-size: 14px;
+    }
+  }
+}
+
+.LaunchCountdown {
+  display: flex;
+  gap: 10px;
+
+  &-unit {
+    min-width: 76px;
+    padding: 10px 12px;
+    border: 1px solid #3a2d27;
+    border-radius: 10px;
+    background: #1b1412;
+    text-align: center;
+  }
+
+  &-value {
+    .discuss-display(900);
+    display: block;
+    font-size: 40px;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    // The mark gradient used on the 2.0 numerals.
+    background: linear-gradient(to bottom, #e7762e 17%, #e7562e);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  &-label {
+    .discuss-mono();
+    display: block;
+    margin-top: 6px;
+    font-size: 10px;
+    color: #a8978c;
+  }
+
+  @media @phone {
+    gap: 6px;
+
+    &-unit {
+      min-width: 0;
+      flex: 1;
+      padding: 8px 4px;
+    }
+
+    &-value {
+      font-size: 26px;
+    }
+
+    &-label {
+      font-size: 9px;
+      letter-spacing: 0.06em;
+    }
   }
 }
 
@@ -1984,13 +2260,11 @@
     }
 
     &-value {
-      font-size: 15px;
+      font-size: 16px;
     }
 
     &-label {
-      font-size: 12px;
-      text-transform: none;
-      letter-spacing: 0;
+      font-size: 10px;
       margin: 0;
     }
   }

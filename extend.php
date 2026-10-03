@@ -22,13 +22,17 @@ return [
         ->js(__DIR__.'/js/dist/forum.js')
         ->css(__DIR__.'/less/forum.less')
         ->jsDirectory(__DIR__.'/js/dist/forum')
+        ->content(Content\SiteIcons::class)
+        // Forum frontend only: emails and the admin keep the uploaded logo.
+        ->content(Content\LaunchLogo::class)
         ->route('/home', 'home', Content\Home::class)
         ->route('/supporters', 'supporters', Content\Supporters::class)
         ->route('/contribute', 'contribute', Content\Contribute::class),
 
     (new Extend\Frontend('admin'))
         ->js(__DIR__.'/js/dist/admin.js')
-        ->css(__DIR__.'/less/admin.less'),
+        ->css(__DIR__.'/less/admin.less')
+        ->content(Content\SiteIcons::class),
 
     new Extend\Locales(__DIR__.'/locale'),
 
@@ -41,6 +45,7 @@ return [
         ->default('flarum-discuss.supporters.github-stars', 6700)
         ->default('flarum-discuss.supporters.framework-commits', 9300)
         ->default('flarum-discuss.supporters.framework-contributors', 200)
+        ->default(Launch\LaunchPhase::FORCE_SETTING, 'auto')
         ->serializeToForum('githubSponsorsUrl', 'flarum-discuss.donation-link.github')
         ->serializeToForum('openCollectiveUrl', 'flarum-discuss.donation-link.opencollective')
         ->serializeToForum('monthlySupportersGroupId', 'flarum-discuss.supporters.monthly-group')
@@ -62,6 +67,9 @@ return [
         ->whenExtensionEnabled('fof-seo', fn () => [
             (new \FoF\Seo\Extend\SEO())
                 ->addExtender('discuss_home', Seo\HomePage::class),
+
+            (new Extend\Event())
+                ->listen(\FoF\Seo\Event\PreparingPageMeta::class, Seo\LaunchShareImage::class),
         ])
         ->whenExtensionEnabled('fof-best-answer', fn () => [
             // Lets the homepage list support questions by when they were solved, not last activity.
