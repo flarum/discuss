@@ -41,5 +41,41 @@ export default [
       label: app.translator.trans('flarum-discuss.admin.settings.one_time_group_label'),
       type: 'select',
       options: groupOptions(),
+    }))
+    // Flarum 2.0 launch (time-boxed: inert after 16 Oct 2026, remove afterwards).
+    .setting(() => ({
+      setting: 'flarum-discuss.launch.force-phase',
+      label: app.translator.trans('flarum-discuss.admin.settings.launch.force_phase_label'),
+      help: app.translator.trans('flarum-discuss.admin.settings.launch.force_phase_help'),
+      type: 'select',
+      options: {
+        auto: app.translator.trans('flarum-discuss.admin.settings.launch.phase_auto'),
+        teaser: app.translator.trans('flarum-discuss.admin.settings.launch.phase_teaser'),
+        launch: app.translator.trans('flarum-discuss.admin.settings.launch.phase_launch'),
+        off: app.translator.trans('flarum-discuss.admin.settings.launch.phase_off'),
+      },
+      default: 'auto',
+    }))
+    .setting(() => ({
+      setting: 'flarum-discuss.launch.event-url',
+      label: app.translator.trans('flarum-discuss.admin.settings.launch.event_url_label'),
+      help: app.translator.trans('flarum-discuss.admin.settings.launch.event_url_help'),
+      type: 'url',
+    }))
+    .setting(() => ({
+      setting: 'flarum-discuss.launch.announcement-url',
+      label: app.translator.trans('flarum-discuss.admin.settings.launch.announcement_url_label'),
+      type: 'url',
+    }))
+    .setting(() => ({
+      setting: 'flarum-discuss.launch.infographic-url',
+      label: app.translator.trans('flarum-discuss.admin.settings.launch.infographic_url_label'),
+      type: 'url',
+    }))
+    .setting(() => ({
+      setting: 'flarum-discuss.launch.wallpapers-url',
+      label: app.translator.trans('flarum-discuss.admin.settings.launch.wallpapers_url_label'),
+      help: app.translator.trans('flarum-discuss.admin.settings.launch.links_help'),
+      type: 'url',
     })),
 ];
