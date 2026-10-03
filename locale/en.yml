@@ -28,7 +28,7 @@ flarum-discuss:
   forum:
     launch:
       # Flarum 2.0 launch banner (time-boxed, remove after 16 Oct 2026)
-      teaser_kicker: Flarum 2.0 · 9 October · 19:00 BST
+      teaser_kicker: 9 October · 19:00 BST
       teaser_title: Good things come in twos.
       teaser_when: "That's {time} where you are."
       event_button: Join us on the Discord stage

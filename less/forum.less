@@ -84,16 +84,16 @@ body.ContributePage {
   letter-spacing: 0.12em;
 }
 
-// Outlined mono chip (2px accent, r4).
-.discuss-chip() {
+// Outlined mono chip (2px, r4). Accent by default; pass rule/body colours for a neutral one.
+.discuss-chip(@border: var(--discuss-accent), @color: var(--discuss-kicker)) {
   .discuss-mono();
   display: inline-flex;
   align-items: center;
   gap: 6px;
   padding: 4px 10px;
-  border: 2px solid var(--discuss-accent);
+  border: 2px solid @border;
   border-radius: 4px;
-  color: var(--discuss-kicker);
+  color: @color;
   font-size: 11px;
   line-height: 1.4;
   white-space: nowrap;
@@ -446,7 +446,7 @@ body.ContributePage {
 
     i {
       font-size: 28px;
-      color: var(--discuss-accent);
+      color: var(--discuss-muted);
     }
 
     @media (max-width: 768px) {
@@ -556,7 +556,7 @@ body.ContributePage {
   &-value {
     .discuss-display(900);
     font-size: 36px;
-    color: var(--discuss-accent);
+    color: var(--discuss-ink);
     line-height: 1.1;
     margin-bottom: 4px;
     font-variant-numeric: tabular-nums;
@@ -1309,7 +1309,7 @@ body.ContributePage {
     gap: 10px;
 
     .icon {
-      color: var(--discuss-accent);
+      color: var(--discuss-muted);
       font-size: 18px;
     }
   }
@@ -1317,8 +1317,13 @@ body.ContributePage {
   &-viewAll {
     .discuss-mono();
     font-size: 12px;
-    color: var(--discuss-kicker);
+    color: var(--discuss-muted);
     white-space: nowrap;
+
+    &:hover,
+    &:focus-visible {
+      color: var(--discuss-kicker);
+    }
   }
 
   &-sectionDescription {
@@ -1359,7 +1364,7 @@ body.ContributePage {
   }
 
   &-icon {
-    color: var(--discuss-accent);
+    color: var(--discuss-muted);
     font-size: 16px;
     margin-bottom: 6px;
   }
@@ -1367,7 +1372,7 @@ body.ContributePage {
   &-value {
     .discuss-display(900);
     font-size: 30px;
-    color: var(--discuss-accent);
+    color: var(--discuss-ink);
     line-height: 1.1;
     font-variant-numeric: tabular-nums;
   }
@@ -1456,9 +1461,6 @@ body.ContributePage {
     margin-right: 4px;
   }
 
-  &--extension {
-    border-left: 4px solid var(--discuss-accent);
-  }
 }
 
 // -----------------------------------------------------
@@ -1474,7 +1476,6 @@ body.ContributePage {
   color: var(--discuss-body);
   background: var(--discuss-card);
   border: 1px solid var(--discuss-rule);
-  border-top: 4px solid var(--discuss-accent);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 
   &:hover,
@@ -1485,7 +1486,7 @@ body.ContributePage {
   }
 
   &-pinned {
-    .discuss-chip();
+    .discuss-chip(var(--discuss-rule), var(--discuss-body));
     align-self: flex-start;
     margin-bottom: 12px;
   }
@@ -1539,13 +1540,17 @@ body.ContributePage {
     .discuss-mono();
     margin-left: auto;
     font-size: 12px;
-    color: var(--discuss-kicker);
+    color: var(--discuss-muted);
     white-space: nowrap;
 
     .icon {
       margin-left: 6px;
       transition: transform 0.2s ease;
     }
+  }
+
+  &:hover &-readMore {
+    color: var(--discuss-kicker);
   }
 
   &:hover &-readMore .icon {
@@ -1579,15 +1584,20 @@ body.ContributePage {
     gap: 8px;
 
     .icon {
-      color: var(--discuss-accent);
+      color: var(--discuss-muted);
     }
   }
 
   &-more {
     .discuss-mono();
     font-size: 11px;
-    color: var(--discuss-kicker);
+    color: var(--discuss-muted);
     white-space: nowrap;
+
+    &:hover,
+    &:focus-visible {
+      color: var(--discuss-kicker);
+    }
   }
 
   &-description {
@@ -1668,7 +1678,7 @@ body.ContributePage {
 
   &-score {
     .discuss-display(900);
-    color: var(--discuss-accent);
+    color: var(--discuss-ink);
     font-variant-numeric: tabular-nums;
   }
 }
@@ -1772,7 +1782,7 @@ body.ContributePage {
     gap: 12px;
 
     .icon {
-      color: var(--discuss-accent);
+      color: var(--discuss-muted);
       font-size: 26px;
     }
   }
@@ -1906,7 +1916,7 @@ body.ContributePage {
 
   &-linkIcon {
     font-size: 18px;
-    color: var(--discuss-accent);
+    color: var(--discuss-muted);
     width: 22px;
     text-align: center;
     flex-shrink: 0;
