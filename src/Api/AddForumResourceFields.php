@@ -106,9 +106,9 @@ class AddForumResourceFields
 
         return [
             'light' => $light,
-            'dark'  => $dark,
-            'link'  => $this->settings->get(HomeImage::LINK_SETTING) ?: null,
-            'alt'   => (string) $this->settings->get(HomeImage::ALT_SETTING),
+            'dark' => $dark,
+            'link' => $this->settings->get(HomeImage::LINK_SETTING) ?: null,
+            'alt' => (string) $this->settings->get(HomeImage::ALT_SETTING),
         ];
     }
 
@@ -126,8 +126,8 @@ class AddForumResourceFields
         [$width, $height] = array_map('intval', explode('x', (string) $this->settings->get($sizeSetting)) + [1 => 0]);
 
         return [
-            'url'    => $this->assets->url($path),
-            'width'  => $width ?: null,
+            'url' => $this->assets->url($path),
+            'width' => $width ?: null,
             'height' => $height ?: null,
         ];
     }
