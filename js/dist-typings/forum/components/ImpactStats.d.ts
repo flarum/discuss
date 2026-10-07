@@ -8,6 +8,8 @@ interface Stat {
     icon: string;
     value: number;
     label: string;
+    href: string;
+    external?: boolean;
 }
 /**
  * The `ImpactStats` component displays key metrics about Flarum's impact

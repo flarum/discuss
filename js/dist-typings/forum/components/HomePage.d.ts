@@ -4,7 +4,6 @@ import type Mithril from 'mithril';
 import BaseInfoPage, { IBaseInfoPageAttrs } from './BaseInfoPage';
 export declare const EXTENSIONS_TAG_SLUG = "extensions";
 export declare const BLOG_TAG_SLUG = "blog";
-export declare const DOCS_URL = "https://docs.flarum.org";
 export interface IHomePageAttrs extends IBaseInfoPageAttrs {
 }
 export default class HomePage<CustomAttrs extends IHomePageAttrs = IHomePageAttrs> extends BaseInfoPage<CustomAttrs> {
