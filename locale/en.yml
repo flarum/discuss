@@ -6,43 +6,28 @@ flarum-discuss:
         opencollective_label: Open Collective URL
       monthly_group_label: Monthly Supporters Group
       one_time_group_label: One-Time Supporters Group
-      launch:
-        force_phase_label: Flarum 2.0 launch phase
-        force_phase_help: >-
-          Automatic shows the teaser until 9 October 2026 at 19:00 BST, then the launch banner, share image, touch icon
-          and header logo for one week. To preview a phase without changing it for everyone, add ?launch-preview=teaser,
-          launch or off to any forum URL while logged in as an admin.
-        phase_auto: Automatic (follow the launch dates)
-        phase_teaser: Always show the teaser
-        phase_launch: Always show the launch
-        phase_off: "Off"
-        event_url_label: Launch event URL (teaser)
-        event_url_help: Linked from the teaser banner, e.g. the Discord stage event. Leave empty to hide the button.
-        announcement_url_label: Announcement URL
-        infographic_url_label: Infographic URL
-        wallpapers_url_label: Wallpapers URL
-        links_help: Linked from the launch banner. Empty links are hidden, so these can be filled in on launch day.
+      home_image:
+        label: Homepage Image
+        help: >-
+          Shown as a full-width banner under the homepage hero. Upload it at least 2400px wide so it stays sharp on high-density
+          screens; larger images are scaled to fit 2400px and saved as WebP (lossless for artwork, high-quality for photos).
+          Remove it to hide the banner.
+        dark_label: Homepage Image (Dark Mode)
+        dark_help: >-
+          Optional. Shown instead of the image above when the forum is in dark mode. If only one of the two is uploaded, it's
+          used in both modes.
+        current_size: "Current image: {size}px."
+        too_small: >-
+          Current image: {size}px. That's narrower than {min}px, so it may look soft on high-density screens, and where it's
+          narrower than the page it's shown at its own width rather than stretched. Upload a larger version for best results.
+        link_label: Homepage Image Link
+        link_help: Optional. When set, the banner links here.
+        alt_label: Homepage Image Description
+        alt_help: Describes the image for screen readers. Include any text that appears in the image.
     basics:
       home_label: Discuss Home
 
   forum:
-    launch:
-      # Flarum 2.0 launch banner (time-boxed, remove after 16 Oct 2026)
-      teaser_kicker: 9 October · 19:00 BST
-      teaser_title: Good things come in twos.
-      teaser_when: "That's {time} where you are."
-      event_button: Join us on the Discord stage
-      countdown_days: Days
-      countdown_hours: Hours
-      countdown_minutes: Minutes
-      countdown_seconds: Seconds
-      launch_kicker: Out now
-      launch_title: Flarum 2.0 is here.
-      launch_tagline: Rebuilt on a modern stack. Tuned for speed.
-      announcement_button: Read the announcement
-      infographic_button: See what's new
-      wallpapers_button: Download the wallpapers
-
     home:
       title: Home
       description: >-
@@ -57,7 +42,6 @@ flarum-discuss:
       hero_title_user: "Welcome back, {username}!"
       hero_subtitle_user: Here's what's been happening in the community.
       join_button: Join the Community
-      browse_button: Browse Discussions
 
       # Sections
       blog_title: Latest announcements

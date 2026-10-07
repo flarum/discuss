@@ -9,8 +9,6 @@
 
 namespace Flarum\Discuss\Content;
 
-use Flarum\Discuss\Launch\LaunchAssets;
-use Flarum\Discuss\Launch\LaunchPhase;
 use Flarum\Frontend\Document;
 use Illuminate\Contracts\Filesystem\Cloud;
 use Illuminate\Contracts\Filesystem\Factory;
@@ -20,17 +18,13 @@ use Psr\Http\Message\ServerRequestInterface as Request;
  * Site icons from the 2026 design system's `on-gradient` set.
  *
  * The web manifest and its Android icons are left to fof/pwa, which serves its own `/webmanifest`.
- * During launch week the touch icon carries "2.0" in the bubble; the favicons are the same in both sets.
  */
 class SiteIcons
 {
     protected Cloud $assets;
 
-    public function __construct(
-        Factory $filesystem,
-        protected LaunchPhase $phase,
-        protected LaunchAssets $launchAssets
-    ) {
+    public function __construct(Factory $filesystem)
+    {
         $this->assets = $filesystem->disk('flarum-assets');
     }
 
@@ -44,11 +38,7 @@ class SiteIcons
             '<link rel="icon" type="image/png" sizes="16x16" href="'.$this->url('favicon-16x16.png').'">',
         ]);
 
-        $touchIcon = $this->phase->current($request) === LaunchPhase::LAUNCH
-            ? e($this->launchAssets->url('apple-touch-icon.png'))
-            : $this->url('apple-touch-icon.png');
-
-        $document->head['apple-touch-icon'] = '<link rel="apple-touch-icon" sizes="180x180" href="'.$touchIcon.'">';
+        $document->head['apple-touch-icon'] = '<link rel="apple-touch-icon" sizes="180x180" href="'.$this->url('apple-touch-icon.png').'">';
         $document->head['mask-icon'] = '<link rel="mask-icon" href="'.$this->url('safari-pinned-tab.svg').'" color="#E7562E">';
     }
 

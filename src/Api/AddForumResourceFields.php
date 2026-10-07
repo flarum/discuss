@@ -12,7 +12,7 @@ namespace Flarum\Discuss\Api;
 use Carbon\Carbon;
 use Flarum\Api\Context;
 use Flarum\Api\Schema;
-use Flarum\Discuss\Launch\LaunchPhase;
+use Flarum\Discuss\Home\HomeImage;
 use Flarum\Discussion\Discussion;
 use Flarum\Extension\ExtensionManager;
 use Flarum\Group\Group;
@@ -20,18 +20,23 @@ use Flarum\Post\CommentPost;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\User\User;
 use Illuminate\Contracts\Cache\Store;
+use Illuminate\Contracts\Filesystem\Cloud;
+use Illuminate\Contracts\Filesystem\Factory;
 
 class AddForumResourceFields
 {
     const SUPPORTERS_CACHE_KEY = 'flarum-discuss.total-supporters';
     const COMMUNITY_STATS_CACHE_KEY = 'flarum-discuss.community-stats';
 
+    protected Cloud $assets;
+
     public function __construct(
         protected Store $cache,
         protected SettingsRepositoryInterface $settings,
         protected ExtensionManager $extensions,
-        protected LaunchPhase $launchPhase
+        Factory $filesystem
     ) {
+        $this->assets = $filesystem->disk('flarum-assets');
     }
 
     public function __invoke(): array
@@ -78,21 +83,52 @@ class AddForumResourceFields
                     return $stats;
                 }),
 
-            // The homepage launch banner recomputes the phase from these timestamps,
-            // so an open tab flips at launch, unless `fixed` (an admin override) pins it.
-            Schema\Arr::make('discussLaunch')
-                ->get(fn (mixed $model, Context $context) => [
-                    'phase' => $this->launchPhase->current($context->request),
-                    'fixed' => $this->launchPhase->isFixed($context->request),
-                    'launchAt' => LaunchPhase::LAUNCH_AT,
-                    'endsAt' => LaunchPhase::ENDS_AT,
-                    'links' => [
-                        'event' => $this->settings->get('flarum-discuss.launch.event-url') ?: null,
-                        'announcement' => $this->settings->get('flarum-discuss.launch.announcement-url') ?: null,
-                        'infographic' => $this->settings->get('flarum-discuss.launch.infographic-url') ?: null,
-                        'wallpapers' => $this->settings->get('flarum-discuss.launch.wallpapers-url') ?: null,
-                    ],
-                ]),
+            // Null when no image is uploaded, so the homepage renders nothing.
+            Schema\Arr::make('discussHomeImage')
+                ->nullable()
+                ->get(fn () => $this->homeImage()),
+        ];
+    }
+
+    /**
+     * Both variants as uploaded; the frontend falls back from one to the other.
+     *
+     * @return array{light: array<string, mixed>|null, dark: array<string, mixed>|null, link: string|null, alt: string}|null
+     */
+    protected function homeImage(): ?array
+    {
+        $light = $this->uploadedImage(HomeImage::PATH_SETTING, HomeImage::SIZE_SETTING);
+        $dark = $this->uploadedImage(HomeImage::DARK_PATH_SETTING, HomeImage::DARK_SIZE_SETTING);
+
+        if (! $light && ! $dark) {
+            return null;
+        }
+
+        return [
+            'light' => $light,
+            'dark' => $dark,
+            'link' => $this->settings->get(HomeImage::LINK_SETTING) ?: null,
+            'alt' => (string) $this->settings->get(HomeImage::ALT_SETTING),
+        ];
+    }
+
+    /**
+     * @return array{url: string, width: int|null, height: int|null}|null
+     */
+    protected function uploadedImage(string $pathSetting, string $sizeSetting): ?array
+    {
+        $path = $this->settings->get($pathSetting);
+
+        if (! $path) {
+            return null;
+        }
+
+        [$width, $height] = array_map('intval', explode('x', (string) $this->settings->get($sizeSetting)) + [1 => 0]);
+
+        return [
+            'url' => $this->assets->url($path),
+            'width' => $width ?: null,
+            'height' => $height ?: null,
         ];
     }
 

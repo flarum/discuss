@@ -23,8 +23,6 @@ return [
         ->css(__DIR__.'/less/forum.less')
         ->jsDirectory(__DIR__.'/js/dist/forum')
         ->content(Content\SiteIcons::class)
-        // Forum frontend only: emails and the admin keep the uploaded logo.
-        ->content(Content\LaunchLogo::class)
         ->route('/home', 'home', Content\Home::class)
         ->route('/supporters', 'supporters', Content\Supporters::class)
         ->route('/contribute', 'contribute', Content\Contribute::class),
@@ -36,6 +34,13 @@ return [
 
     new Extend\Locales(__DIR__.'/locale'),
 
+    // Homepage banner image, uploaded with core's UploadImageButton (see admin/extend.ts).
+    (new Extend\Routes('api'))
+        ->post('/'.Home\HomeImage::UPLOAD_NAME, 'flarum-discuss.home-image', Api\Controller\UploadHomeImageController::class)
+        ->delete('/'.Home\HomeImage::UPLOAD_NAME, 'flarum-discuss.home-image.delete', Api\Controller\DeleteHomeImageController::class)
+        ->post('/'.Home\HomeImage::DARK_UPLOAD_NAME, 'flarum-discuss.home-image-dark', Api\Controller\UploadHomeImageDarkController::class)
+        ->delete('/'.Home\HomeImage::DARK_UPLOAD_NAME, 'flarum-discuss.home-image-dark.delete', Api\Controller\DeleteHomeImageDarkController::class),
+
     (new Extend\View())
         ->namespace('flarum-discuss', __DIR__.'/resources/views'),
 
@@ -45,7 +50,6 @@ return [
         ->default('flarum-discuss.supporters.github-stars', 6700)
         ->default('flarum-discuss.supporters.framework-commits', 9300)
         ->default('flarum-discuss.supporters.framework-contributors', 200)
-        ->default(Launch\LaunchPhase::FORCE_SETTING, 'auto')
         ->serializeToForum('githubSponsorsUrl', 'flarum-discuss.donation-link.github')
         ->serializeToForum('openCollectiveUrl', 'flarum-discuss.donation-link.opencollective')
         ->serializeToForum('monthlySupportersGroupId', 'flarum-discuss.supporters.monthly-group')
@@ -67,9 +71,6 @@ return [
         ->whenExtensionEnabled('fof-seo', fn () => [
             (new \FoF\Seo\Extend\SEO())
                 ->addExtender('discuss_home', Seo\HomePage::class),
-
-            (new Extend\Event())
-                ->listen(\FoF\Seo\Event\PreparingPageMeta::class, Seo\LaunchShareImage::class),
         ])
         ->whenExtensionEnabled('fof-best-answer', fn () => [
             // Lets the homepage list support questions by when they were solved, not last activity.
