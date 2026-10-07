@@ -14,17 +14,16 @@ import BaseInfoPage, { IBaseInfoPageAttrs } from './BaseInfoPage';
 import HomeDiscussionCard from './HomeDiscussionCard';
 import BlogFeatureCard from './BlogFeatureCard';
 import CommunityPulse from './CommunityPulse';
-import LaunchBanner from './LaunchBanner';
+import HomeBanner from './HomeBanner';
 import TopContributors from './TopContributors';
 import findHomeSection from '../utils/homeFeed';
 import RecentlySolved from './RecentlySolved';
-import ContributionTypes from './ContributionTypes';
+import ContributionTypes, { DOCS_URL } from './ContributionTypes';
 import ImpactStats from './ImpactStats';
 import { SUPPORT_TAG_SLUG } from './RecentlySolved';
 
 export const EXTENSIONS_TAG_SLUG = 'extensions';
 export const BLOG_TAG_SLUG = 'blog';
-export const DOCS_URL = 'https://docs.flarum.org';
 
 export interface IHomePageAttrs extends IBaseInfoPageAttrs {}
 
@@ -140,15 +139,8 @@ export default class HomePage<CustomAttrs extends IHomePageAttrs = IHomePageAttr
   }
 
   heroCta(): Mithril.Children {
-    if (app.session.user) {
-      return (
-        <Button className="Button InfoPage-heroCta HomePage-browseCta" icon="fas fa-comments" onclick={() => m.route.set(app.route('index'))}>
-          {app.translator.trans('flarum-discuss.forum.home.browse_button')}
-        </Button>
-      );
-    }
-
-    if (!app.forum.attribute('allowSignUp')) return null;
+    // Members already have All Discussions in the sidebar; only guests get a call to action.
+    if (app.session.user || !app.forum.attribute('allowSignUp')) return null;
 
     return (
       <Button
@@ -167,7 +159,7 @@ export default class HomePage<CustomAttrs extends IHomePageAttrs = IHomePageAttr
     // Rail widgets each depend on an optional extension, so the rail may be empty.
     const rail = this.railItems();
 
-    items.add('launch', <LaunchBanner />, 110);
+    items.add('banner', <HomeBanner />, 105);
     items.add('pulse', <CommunityPulse />, 100);
     items.add(
       'grid',

@@ -9,24 +9,10 @@
     <h1>{{ $translator->trans('flarum-discuss.forum.home.hero_title_guest') }}</h1>
     <p>{{ $translator->trans('flarum-discuss.forum.home.hero_subtitle_guest') }}</p>
 
-    {{-- Flarum 2.0 launch (time-boxed: remove after 16 Oct 2026) --}}
-    @if ($launchPhase === 'teaser')
-        <h2>{{ $translator->trans('flarum-discuss.forum.launch.teaser_title') }}</h2>
-        <p>{{ $translator->trans('flarum-discuss.forum.launch.teaser_kicker') }}</p>
-    @elseif ($launchPhase === 'launch')
-        <h2>{{ $translator->trans('flarum-discuss.forum.launch.launch_title') }}</h2>
-        <p>{{ $translator->trans('flarum-discuss.forum.launch.launch_tagline') }}</p>
-        <ul>
-            @if ($launchLinks['announcement'])
-                <li><a href="{{ $launchLinks['announcement'] }}">{{ $translator->trans('flarum-discuss.forum.launch.announcement_button') }}</a></li>
-            @endif
-            @if ($launchLinks['infographic'])
-                <li><a href="{{ $launchLinks['infographic'] }}">{{ $translator->trans('flarum-discuss.forum.launch.infographic_button') }}</a></li>
-            @endif
-            @if ($launchLinks['wallpapers'])
-                <li><a href="{{ $launchLinks['wallpapers'] }}">{{ $translator->trans('flarum-discuss.forum.launch.wallpapers_button') }}</a></li>
-            @endif
-        </ul>
+    {{-- No-JS clients get the light image, or the dark one when that's all there is. --}}
+    @if (($homeImage = $forum['discussHomeImage'] ?? null) && ($variant = $homeImage['light'] ?? $homeImage['dark']))
+        @php($img = '<img src="'.e($variant['url']).'" alt="'.e($homeImage['alt']).'"'.($variant['width'] ? ' width="'.$variant['width'].'" height="'.$variant['height'].'"' : '').'>')
+        <p>{!! $homeImage['link'] ? '<a href="'.e($homeImage['link']).'">'.$img.'</a>' : $img !!}</p>
     @endif
 
     @if (count($blog))

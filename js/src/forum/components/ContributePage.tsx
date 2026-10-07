@@ -28,6 +28,12 @@ export default class ContributePage<CustomAttrs extends IContributePageAttrs = I
     // Set page title and meta
     app.setTitle(extractText(app.translator.trans('flarum-discuss.forum.contribute.meta_title')));
     app.setTitleCount(0);
+
+    // e.g. #donate from the homepage's "Financial Support" card; the section only exists once rendered.
+    const hash = window.location.hash;
+    if (hash) {
+      setTimeout(() => document.querySelector(hash)?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+    }
   }
 
   pageClass(): string {
